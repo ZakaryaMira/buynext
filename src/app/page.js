@@ -1,10 +1,10 @@
 import HeroSection from "./HeroComponent";
-import NosProduits from "./NosProduits";
+import OurProducts from "./OurProducts";
 export default function Home() {
   return (
     <section className="">  
       <HeroSection/>
-      <NosProduits/>
+      <OurProducts/>
     </section>
   );
 }

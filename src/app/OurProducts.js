@@ -5,7 +5,7 @@ import Female from "../app/SVG/Female.svg";
 import Gamepad from "../app/SVG/Gamepad.svg";
 import Image from "next/image";
 
-const NosProduits = () => {
+const OurProducts = () => {
   return (
     <section className="w-full bg-white py-12 flex flex-col items-center gap-2">
       <h2 className="text-4xl font-bold text-[#212121] mb-4 text-5xl">Nos Produits</h2>
@@ -13,7 +13,7 @@ const NosProduits = () => {
         Découvrez notre sélection de produits de qualité
       </p>
 
-      <div className="flex items-center justify-center gap-6 flex-wrap">
+      <div className="flex items-center justify-center gap-6 flex-wrap mb-30">
         <ProductCategoryCard icon={<Image src={Gamepad} alt="Gamepad" />} title="Électronique" />
         <ProductCategoryCard icon={<Image src={Gem} alt="Gem" />} title="Gemmes" />
         <ProductCategoryCard icon={<Image src={Male} alt="Male" />} title="Mode Hommes" />
@@ -23,4 +23,4 @@ const NosProduits = () => {
   );
 };
 
-export default NosProduits;
+export default OurProducts;
