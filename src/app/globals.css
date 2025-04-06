@@ -1,2 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Jeko-Black';
+  src: url('./Fonts/Jeko-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Jeko-Extra-Bold';
+  src: url('./Fonts/Jeko-Extra-Bold.ttf') format('truetype');
+}
+
+.heading-black {
+  font-family: 'Jeko-Black', sans-serif;
+}
+
+.heading-extra-bold {
+  font-family: 'Jeko-Extra-Bold', sans-serif;
+}
+
+  
