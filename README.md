@@ -1,36 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# BUYNEXT Project
+# 🛒 Weasydoo Store – Test Technique Frontend
 
-## Getting Started
+Ce projet est une application e-commerce développée avec **Next.js** et l’API [FakeStoreAPI](https://fakestoreapi.com/), dans le cadre d’un test technique pour l’entreprise **Weasydoo**. L’objectif est de démontrer mes compétences en développement web moderne, incluant l’authentification, les opérations CRUD, et l’optimisation des performances.
 
-First, run the development server:
+## 📄 Pages implémentées
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- `Page de destination` – Accueil général de l’application
+- `Connexion` – Formulaire de connexion utilisateur
+- `Créer un compte` – Formulaire d’inscription
+- `Card page` – Affichage de tous les produits
+- `Acheter un produit` – Détail d’un produit sélectionné
+- `Ajouter un produit` – Formulaire pour publier un nouveau produit
+- `Liste de mes produits` – Tous les produits ajoutés par l’utilisateur connecté
+- `Modifier un produit` – Modification des produits existants
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
