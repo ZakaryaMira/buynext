@@ -43,7 +43,7 @@ const NavComponent = () => {
         <Image  src={UserSvg} alt="User" width={24} height={24} className='cursor-pointer' />
         
         {isDropDown && (
-          <div className="absolute right-0 mt-0 py-5 w-48 bg-white border border-gray-200 rounded-md shadow-md w-100">
+          <div className="absolute right-0 mt-0 py-5 w-48 bg-white border border-gray-200 rounded-md shadow-md w-100 z-10">
             <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Connexion</Link>
             <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Créer un compte</Link>
             <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Ajouter un produit</Link>
