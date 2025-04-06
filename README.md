@@ -251,3 +251,5 @@ const handleSignup = async (formData) => {
 Nom d'utilisateur
 Email
 Mot de passe
+
+- `Card page` – Affichage de tous les produits
