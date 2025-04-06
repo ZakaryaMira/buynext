@@ -42,6 +42,8 @@ Déconnexion
 
 Icône du panier représentant les achats
 
+
+
 ✅ HeroSection
 Section principale de la landing page, composée de :
 
