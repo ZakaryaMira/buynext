@@ -19,8 +19,8 @@ const Footer = () => {
         {/* third colomn */}
         <div className='flex flex-col gap-3'>
             <h1 className='text-2xl heading-black'>Compte</h1>
-            <Link className='heading-extra-bold' href='/'>Se connecter </Link>
-            <Link className='heading-extra-bold' href='/'>Créer un compte</Link>
+            <Link className='heading-extra-bold' href='/login'>Se connecter </Link>
+            <Link className='heading-extra-bold' href='/signup'>Créer un compte</Link>
             <Link className='heading-extra-bold' href='/'>Mon panier</Link>
         </div>
         {/* fourth colomn */}

@@ -53,8 +53,8 @@ const NavComponent = () => {
           
           {isClient && isDropDown && (
             <div className="absolute right-0 mt-0 py-5 w-48 bg-white border border-gray-200 rounded-md shadow-md z-10">
-              <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Connexion</Link>
-              <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Créer un compte</Link>
+              <Link href="/login" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Connexion</Link>
+              <Link href="/signup" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Créer un compte</Link>
               <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Ajouter un produit</Link>
               <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Liste des produits</Link>
               <Link href="/" className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Déconnexion</Link>
