@@ -5,7 +5,7 @@ const categories = [
     "Mode Homme",
     "Mode Femme",
     "Maison et Art de Vivre",
-    "Téléphones & Télécommunications",
+    "Téléphones",
     "Informatique",
     "Sacs & Chaussures",
     "Jouets, Enfants & Bébés",

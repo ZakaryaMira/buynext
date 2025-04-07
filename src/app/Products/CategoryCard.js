@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React from 'react'
 
 const CategoryCard = ({title}) => {
   return (
@@ -8,4 +8,4 @@ const CategoryCard = ({title}) => {
   )
 }
 
-export default CategoryCard
+export default CategoryCard */

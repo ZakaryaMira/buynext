@@ -1,25 +1,23 @@
  import React from 'react'
 import Categories from '../SVG/Categories.svg'
 import Image from 'next/image'
-import CategoryCard from './CategoryCard'
 import categories from './Categories'
 const OurCategories = () => {
   return (
-    <section>
-    <aside className='w-64 bg-white p-4 rounded shadow'>
-    <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <span>📦</span> Nos Catégories
-    </h2>
-      <Image className='w-10 h-10' src={Categories} alt="CategoriesIcon"/>
-      <div className='grid grid-cols-2 gap-2'>
-        {
-        categories.map((category, index) => (
-            <CategoryCard key={index} title={category}/>
-        ))
-        }
-      </div>
-    </aside>
-    </section>
+ <aside className="w-67 bg-[#FAFAFA] p-4 rounded shadow w-100 h-100">
+          <h2 className="text-2xl heading-extra-bold mb-4 flex items-center gap-2">
+            <span><Image src={Categories} alt="CategoriesIcon" width={30} height={30} className='mr-1'></Image></span> Nos Catégories
+          </h2>
+          <div className="grid grid-cols-2 gap-2 text-sm heading-black ">
+            {categories.map((category, index) => {
+              return(
+              <button key={index} className="border px-2 py-1 rounded hover:bg-gray-200 h-20">
+                {category}
+              </button>
+              )
+            })}
+          </div>
+        </aside>
   )
 }
 
