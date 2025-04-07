@@ -20,74 +20,68 @@ La page de destination, première vue de l'application, met en avant les fonctio
 🔧 Composants inclus
 
 ✅ NavComponent
-Barre de navigation située en haut de la page. Elle contient :
 
-Logo de l'application (BuyNext)
+La barre de navigation située en haut de la page contient :
 
-Barre de recherche pour rechercher un produit
-
-Lien "À propos"
-
-Icône utilisateur : lorsqu'on survole l'icône, un menu déroulant s'affiche avec :
-
-Connexion
-
-Créer un compte
-
-Ajouter un produit
-
-Liste des produits
-
-Déconnexion
-
-Icône du panier représentant les achats
-
-
+- **Logo de l'application** – _BuyNext_
+- **Barre de recherche** – pour rechercher un produit
+- **Lien "À propos"**
+- **Icône utilisateur** – au survol, un menu déroulant s'affiche avec :
+  - Connexion
+  - Créer un compte
+  - Ajouter un produit
+  - Liste des produits
+  - Déconnexion
+- **Icône du panier** – représentant les achats
 
 ✅ HeroSection
+
 Section principale de la landing page, composée de :
 
-Un titre accrocheur : "BuyNext"
+**Un titre accrocheur** : "BuyNext"
 
-Un slogan : "Votre prochain achat, à portée de clic"
+**Un slogan** : "Votre prochain achat, à portée de clic"
 
-Un bouton d’appel à l’action : Découvrez les offres
+**Un bouton d’appel à l’action** : Découvrez les offres
 
-Icônes flottantes représentant les différentes catégories de produits :
+**Icônes flottantes représentant les différentes catégories de produits** :
 
-Jeux vidéo
+  -Jeux vidéo
 
-Vêtements
+  -Vêtements
 
-Téléphones
+  -Téléphones
 
-Outils
+  -Outils
 
 Cette section est centrée et responsive, avec des animations douces pour capter l’attention de l’utilisateur.
 
 🛒 Section : Nos Produits
 La section Nos Produits met en avant les différentes catégories de produits disponibles sur le site. Elle vise à guider rapidement l’utilisateur vers ce qui l’intéresse.
 
+```jsx
 <ProductCategoryCard icon={<Image src={Gamepad} alt="Gamepad" />} title="Électronique" />
 <ProductCategoryCard icon={<Image src={Gem} alt="Gem" />} title="Gemmes" />
 <ProductCategoryCard icon={<Image src={Male} alt="Male" />} title="Mode Hommes" />
 <ProductCategoryCard icon={<Image src={Female} alt="Female" />} title="Mode Femmes" />
+```
 
 Chaque carte affiche :
 
 Une icône représentant la catégorie
 
-Un titre descriptif
+**Un titre descriptif**
 
-Un style responsive avec une légère animation au survol
+**Un style responsive avec une légère animation au survol**
 
 📦 Réutilisabilité : ProductCategoryCard
 Ce composant est une carte générique de catégorie de produit. Il prend deux props :
 
-icon : une icône SVG ou une image
+**icon** : une icône SVG ou une image
 
-title : le nom de la catégorie
+**title** : le nom de la catégorie
 
+```jsx
 const ProductCategoryCard = ({ icon, title }) => {
   return (
     <div className='bg-[F2F2F2] p-6 rounded-xl shadow-md flex flex-col items-center justify-center hover:scale-105 transition-all duration-200 w-[180px] h-[220px] gap-2'>
@@ -96,26 +90,28 @@ const ProductCategoryCard = ({ icon, title }) => {
     </div>
   )
 }
+```
 
-
-Pied de page (Footer)
+✨ Pied de page (Footer)
 Le footer du site contient des informations importantes et des liens rapides pour améliorer l’expérience utilisateur. Il est visible sur toutes les pages.
 
 📌 Sections incluses :
 
-Logo & slogan
+**Logo & slogan**
 
-Navigation : Accueil, À propos, Contact
+**Navigation** : Accueil, À propos, Contact
 
-Compte : Connexion, Inscription, Panier
+**Compte** : Connexion, Inscription, Panier
 
-Contact : Email et téléphone
+**Contact** : Email et téléphone
 
 ✅ Inclus dans le layout global via RootLayout
 
+```jsx
 <NavComponent />
 {children}
 <Footer />
+```
 
 📄 Formulaires d’authentification – BUYNEXT
 Dans ce projet, les pages de connexion et création de compte partagent une structure commune basée sur un composant réutilisable appelé :
@@ -127,16 +123,17 @@ Ce composant rend un formulaire stylisé configurable via props, ce qui évite l
 🔧 Props attendues :
 title: titre principal du formulaire
 
-description: texte secondaire pour informer l'utilisateur
+**description**: texte secondaire pour informer l'utilisateur
 
-fields: tableau d’objets pour générer dynamiquement les champs (name, label, type, placeholder, required)
+**fields**: tableau d’objets pour générer dynamiquement les champs (name, label, type, placeholder, required)
 
-onSubmit: fonction asynchrone à exécuter à la soumission
+**onSubmit**: fonction asynchrone à exécuter à la soumission
 
-button: texte du bouton de validation
+**button**: texte du bouton de validation
 
 💡 Exemple d’utilisation :
 
+```jsx
 <FormComponentTemplate
   title="Créez votre compte"
   description="Remplissez les informations ci-dessous pour vous inscrire."
@@ -147,8 +144,9 @@ button: texte du bouton de validation
     ...
   ]}
 />
+```
 💻 Code source :
-
+```jsx
 "use client";
 import { useState } from "react";
 
@@ -199,10 +197,11 @@ export default function FormComponentTemplate({ title, description, fields, onSu
     </form>
   );
 }
+```
 
 🔐 Page : Connexion (/login)
 Utilise le FormComponentTemplate pour permettre à l’utilisateur de se connecter via l’API 
-
+```jsx
 const handleLogin = async (formData) => {
   const credentials = {
     username: formData.username,
@@ -228,6 +227,7 @@ const handleLogin = async (formData) => {
 Nom d'utilisateur
 Mot de passe
 
+
 🆕 Page : Inscription (/signup)
 Soumet les données utilisateur à l’API FakeStore :
 
@@ -247,9 +247,10 @@ const handleSignup = async (formData) => {
   const data = await response.json();
   alert("Compte créé avec succès !");
 };
+```jsx
 🧾 Champs :
 Nom d'utilisateur
 Email
 Mot de passe
 
-- `Card page` – Affichage de tous les produits
+- `products page` – Affichage de tous les produits
