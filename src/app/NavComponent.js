@@ -1,21 +1,35 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 
 import Logo from '../app/SVG/Logo.svg'
 import SearchSvg from '../app/SVG/SearchSvg.svg'
 import BuySvg from '../app/SVG/BuySvg.svg'
 import UserSvg from '../app/SVG/UserSvg.svg'
 
+
 const NavComponent = () => {
   const [isDropDown, setIsDropDown] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm('');
+    }
+  };
+
+
 
   return (
     <nav className="relative bg-[#f9f9f9] flex items-center justify-between px-6 py-4 shadow-md">
@@ -25,19 +39,19 @@ const NavComponent = () => {
       </div>
 
       {/* Search Bar */}
-      <form className="relative flex-1 max-w-xl mx-4">
+      <form onSubmit={handleSearch} className="relative flex-1 max-w-xl mx-4">
         <input
+
           type="text"
           placeholder="Rechercher des produit"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full px-4 py-2 rounded-full border border-gray-300 heading-extra-bold"
         />
-        <Image
-          src={SearchSvg}
-          alt="Search"
-          width={20}
-          height={20}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
-        />
+        <button type="submit">
+        <Image src={SearchSvg} alt="Search" width={20} height={20} className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"/>
+        </button>
+  
       </form>
 
       {/* Navigation Links */}

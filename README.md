@@ -19,7 +19,7 @@ La page de destination, première vue de l'application, met en avant les fonctio
 
 🔧 Composants inclus
 
-✅ NavComponent
+✅ NavComponent – Navigation Globale avec Barre de Recherche
 
 La barre de navigation située en haut de la page contient :
 
@@ -33,6 +33,9 @@ La barre de navigation située en haut de la page contient :
   - Liste des produits
   - Déconnexion
 - **Icône du panier** – représentant les achats
+  
+
+
 
 ✅ HeroSection
 
@@ -111,6 +114,10 @@ Le footer du site contient des informations importantes et des liens rapides pou
 <NavComponent />
 {children}
 <Footer />
+
+
+
+
 ```
 ## 🔐 Page de Connexion (Login) & 🔑 Création de Compte (Sign Up)
 
@@ -734,7 +741,8 @@ ProductImageUploader
 ```js
 const handleSubmit = async (formData) => {
   const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-    method: 'PUT',
+
+    ```    method: 'PUT',
     body: JSON.stringify(formData),
     headers: {
       'Content-Type': 'application/json',
@@ -745,3 +753,154 @@ const handleSubmit = async (formData) => {
 };
 
 ```
+🔍 Mécanisme de recherche des produits
+Nous avons mis en place une fonctionnalité de recherche dynamique accessible depuis la barre de navigation présente sur toutes les pages.
+
+⚙️ Fonctionnement :
+Saisie de la recherche :
+L'utilisateur entre un mot-clé dans la barre de recherche située dans le composant NavComponent.
+
+Soumission :
+Lorsqu’il soumet le formulaire (avec "Entrée" ou clic sur l’icône de recherche), l’utilisateur est redirigé vers /products avec le mot-clé passé en tant que paramètre de recherche dans l'URL :
+
+```js
+/products?search=mot-clé
+```
+Filtrage des données :
+Sur la page ProductsPage, les produits sont récupérés depuis l’API.
+Si un paramètre de recherche est présent :
+
+les produits sont filtrés en local (côté serveur)
+
+le filtrage est insensible à la casse (toLowerCase())
+
+Affichage :
+Seuls les produits correspondant au mot-clé sont affichés à l'utilisateur.
+
+🧪 Exemple d'utilisation :
+Si l’utilisateur recherche sac, il sera redirigé vers :
+
+```js
+/products?search=sac
+```
+La page affichera alors uniquement les produits dont le titre contient le mot "sac".
+
+🔗 Imports
+
+```js
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+
+import Logo from '../app/SVG/Logo.svg'
+import SearchSvg from '../app/SVG/SearchSvg.svg'
+import BuySvg from '../app/SVG/BuySvg.svg'
+import UserSvg from '../app/SVG/UserSvg.svg'
+
+```
+useState, useEffect : Hooks React pour gérer l’état et les effets secondaires.
+
+useRouter : Hook fourni par Next.js pour naviguer entre les pages par code.
+
+Image : Composant Next.js optimisé pour les images.
+
+Link : Composant pour naviguer entre les pages sans recharger la page.
+
+Les SVGs sont utilisés comme icônes (logo, utilisateur, panier, recherche).
+
+🔍 États internes du composant:
+
+```js
+const [isDropDown, setIsDropDown] = useState(false); // Affichage du menu utilisateur
+const [isClient, setIsClient] = useState(false);     // Pour vérifier si on est bien côté client
+const [searchTerm, setSearchTerm] = useState('');    // Texte saisi dans la barre de recherche
+```
+🎯 useEffect – Exécuté après le premier rendu:
+```js
+useEffect(() => {
+  setIsClient(true);
+}, []);
+
+```
+Ce useEffect s’exécute une seule fois, au montage du composant, et sert à activer certains éléments uniquement côté client, comme le menu déroulant.
+
+🔎 Fonction de recherche
+
+```jsx
+const handleSearch = (e) => {
+  e.preventDefault(); // Empêche le rechargement du formulaire
+  if (searchTerm.trim()) {
+    router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+    setSearchTerm('');
+  }
+};
+```
+Lors de la soumission du formulaire :
+
+Vérifie que le champ n’est pas vide.
+
+Encode le texte saisi dans l’URL.
+
+Redirige vers /products?search=motcle.
+
+Réinitialise le champ de recherche après soumission.
+
+```js
+<form onSubmit={handleSearch}>
+  <input type="text" value={searchTerm} onChange={...} />
+  <button type="submit"><Image src={SearchSvg} /></button>
+</form>
+
+```
+Le champ est lié à searchTerm pour suivre la saisie de l’utilisateur.
+
+Le bouton de soumission contient une icône de recherche
+
+🛍️ ProductsPage.jsx – Affichage des Produits avec Filtrage
+
+🔄 Récupération des données + filtrage
+
+```js
+const response = await fetch('https://fakestoreapi.com/products');
+let data = await response.json();
+```
+Cette partie récupère tous les produits depuis l’API externe.
+
+```js
+const search = searchParams?.search?.toLowerCase() || '';
+const filterData = data.filter((product) =>
+  product.title.toLowerCase().includes(search)
+);
+```
+On récupère le mot-clé dans les paramètres de l’URL (searchParams).
+
+On filtre les produits dont le titre contient ce mot-clé (sans tenir compte des majuscules/minuscules).
+
+```js
+if (filterData.length > 0) {
+  data = filterData;
+}
+```
+Si des produits correspondent au filtre, on remplace data par les résultats filtrés.
+
+🎨 Affichage des produits
+```jsx
+<h1>Nos Produits</h1>
+<p>Découvrez notre sélection...</p>
+
+<div className="flex">
+  <div><OurCategories /></div>  // Catégories à gauche
+  <main>
+    {data.map(product => (
+      <AllProducts key={product.id} product={product} />
+    ))}
+  </main>
+</div>
+
+```
+Affiche les produits filtrés sous forme de grille.
+
+AllProducts est un composant qui affiche un produit.
+
+OurCategories permet probablement de filtrer par catégorie (non encore lié à la recherche).
