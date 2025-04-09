@@ -8,6 +8,7 @@ const AllProducts = ({product}) => {
         <Image src={product.image} alt={product.title} width={200} height={200} className="mx-auto object-contain h-48"/>
         <div>
           <p className="mt-2 font-medium text-[#212121] heading-black mb-10">{product.title}</p>
+          <p className="mt-2 font-medium text-[#212121] heading-black mb-10">{product.category}</p>
           <p className="text-sm text-[#212121] heading-extra-bold">{product.price} $</p>
         </div>
     </div>

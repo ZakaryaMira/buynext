@@ -40,14 +40,7 @@ const NavComponent = () => {
 
       {/* Search Bar */}
       <form onSubmit={handleSearch} className="relative flex-1 max-w-xl mx-4">
-        <input
-
-          type="text"
-          placeholder="Rechercher des produit"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full px-4 py-2 rounded-full border border-gray-300 heading-extra-bold"
-        />
+        <input type="text" placeholder="Rechercher des produit" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full px-4 py-2 rounded-full border border-gray-300 heading-extra-bold"/>
         <button type="submit">
         <Image src={SearchSvg} alt="Search" width={20} height={20} className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"/>
         </button>
