@@ -254,7 +254,7 @@ Nom d'utilisateur
 Email
 Mot de passe
 
-## 🛍️ Page Produit
+##  🛍️ Page Produit
 
 Il s'agit de la page principale de la liste des produits, où les utilisateurs peuvent explorer tous les produits disponibles.
 
@@ -369,3 +369,379 @@ export default nextConfig;
 
 ```
 🔐 Cette configuration permet à Next.js de charger et d’optimiser les images hébergées sur https://fakestoreapi.com.
+
+## 🔍 voir la page de détails du produit ()
+Détail du produit est une page dynamique qui permet à l’utilisateur de consulter les détails d’un produit à partir de la page des produits.
+
+📁 Créer un fichier de route dynamique.
+Dans src/app/products/,  j'ai créé un dossier de route dynamique en utilisant des crochets :
+Le [id] est un segment dynamique. Quand tu accèdes à /products/1, Next.js comprend qu’il faut charger ce fichier et traite 1 comme l’identifiant du produit.
+
+📄 Construire la page dynamique `page.js`
+
+Ce fichier :
+
+- Récupère les paramètres (`params`) depuis l’URL
+- Fait une requête vers l’API externe pour obtenir les données du produit
+- Transmet ces données au composant `ProductDetails`
+
+```js
+import React from 'react'
+import ProductDetails from './ProductDetails'
+
+const page = async ({ params }) => {
+  const { id } = await params; 
+  const result = await fetch(`https://fakestoreapi.com/products/${id}`);
+  const product = await result.json();
+
+  return (
+    <section className='flex flex-col justify-center items-center bg-[#FAFAFA]'>
+      <ProductDetails product={product} />
+    </section>
+  );
+};
+
+export default page;
+
+```
+Cette page utilise le rendu côté serveur (Server-Side Rendering) en déclarant la fonction page comme étant async. Cela permet de récupérer les données du produit à partir de l’API externe FakeStoreAPI avant que la page ne soit rendue côté client.
+
+Le fichier est nommé [id]/page.js dans le dossier app/products, ce qui indique à Next.js qu’il s’agit d’une route dynamique. Le paramètre id est automatiquement extrait de l’URL et passé au composant via l'objet params.
+
+📦 Données passées au composant
+Les données du produit sont ensuite passées au composant ProductDetails via la prop product. Ce composant est responsable de l'affichage des détails visuels du produit (image, titre, description, prix, etc.).
+
+```js
+import React from 'react'
+import Image from 'next/image'
+const ProductDetails = ({product}) => {
+  return (
+        <section className='grid grid-cols-2 bg-[#FFFFFF] w-250 h-230 rounded-2xl shadow mt-40 mb-40 p-5'>
+            <div className='border-1 border-black flex justify-center items-center h-200 w-100 rounded-xl'>
+                <Image src={product.image} alt={product.title} width={300} height={300} />
+            </div>
+            <div>
+                <h1 className='text-3xl text-[#212121] heading-black mb-8 mt-5'>{product.title}</h1>
+                <h2 className='text-2xl text-[#212121] heading-extra-bold mb-16'>{product.price} $</h2>
+                <p className='text-sm text-[#212121] heading-extra-bold mb-24'>{product.description}</p>
+                <div className='flex flex-col gap-4'>
+                    <button className='text-base heading-black bg-[#212121] text-[#FAFAFA] py-5 rounded'>Acheter maintenant</button>
+                    <button className='text-base heading-black bg-[#FAFAFA] text-[#212121] py-5 rounded border-4 border-black'>Ajouter au panier</button>
+                </div>
+            </div>
+        </section>
+  )
+}
+
+export default ProductDetails
+```
+
+## 🧾 page admin 
+
+🧠 Objectif:
+Elle permet aux administrateurs d’ajouter de nouveaux produits au site via l’API Fake Store. Elle dispose d’une interface conviviale avec un système de téléchargement d’image par glisser-déposer et des composants réutilisables pour une architecture de code propre.
+
+📄 AddProductPage (Page principale)
+
+```js
+"use client";
+import FormProducts from "./FormProducts";
+import Image from "next/image";
+import Add from '../SVG/Add.svg'
+import ProductionHeading from "./ProductionHeading";
+
+// Page d’ajout de produit pour l’administrateur
+export default function AddProductPage() {
+
+  // Gère la soumission du formulaire vers l’API Fake Store
+  const handleSubmit = async (formData) => {
+    try {
+      const product = {
+        title: formData.title,
+        price: parseFloat(formData.price),
+        description: formData.description,
+        image: formData.image,
+        category: formData.category,
+      };
+
+      const response = await fetch("https://fakestoreapi.com/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
+
+      const data = await response.json();
+      console.log("Produit ajouté:", data);
+      alert("Produit ajouté avec succès !");
+    } catch (err) {
+      console.error("Erreur lors de l'ajout du produit:", err);
+      alert("Erreur lors de l'ajout !");
+    }
+  };
+
+  // Affiche l'en-tête et le formulaire
+  return (
+    <section className="min-h-screen bg-[#FAFAFA] p-6">
+        <ProductionHeading src={Add} width={50} height={50} title={"Ajouter un produit"}/>
+        <FormProducts onSubmit={handleSubmit} />
+    </section>
+  );
+}
+
+
+```
+🧩 ProductionHeading
+Composant réutilisable pour afficher un en-tête de page avec une icône.
+
+```js
+const ProductionHeading = ({src, width , height, title}) => {
+  return (
+    <div className="flex items-center justify-center gap-4 mt-16 ">
+        <Image src={src} width={width} height={height} />
+        <h1 className="text-5xl text-[#212121] heading-black font-extrabold ">{title}</h1>
+    </div>
+  );
+};
+```
+📦 FormProducts (Composant de formulaire)
+Gère tous les champs nécessaires pour créer un produit. Les données sont soumises au composant parent via la prop onSubmit.
+
+```js
+export default function ProductForm({onSubmit}) {
+  const [formData, setFormData] = useState({
+    title: "",
+    price: "",
+    category: "",
+    description: "",
+    images: [],
+  });
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData); // Envoie les données au parent
+  };
+
+  // Options de catégorie pour le menu déroulant
+  const categoryOptions = [
+    { value: 'electronics', label: 'Électronique' },
+    { value: 'fashion', label: 'Mode' },
+    { value: 'books', label: 'Livres' },
+    { value: 'sports', label: 'Sport' },
+  ];
+
+  return (
+    <form onSubmit={handleSubmit} className="...">
+      {/* Partie gauche : informations de base */}
+      <ProductInpiutFiled ... />
+      <ProductSelectInput ... />
+      <ProductTextArea ... />
+
+      {/* Partie droite : téléversement d’image */}
+      <ProductImageUploader ... />
+
+      {/* Bouton de soumission */}
+    </form>
+  );
+}
+```
+🖼 ProductImageUploader
+Entrée d’image par glisser-déposer avec une option de sélection classique.
+
+```js
+const ProductImageUploader = ({ images, onUpload }) => {
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    onUpload(files);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files);
+    onUpload(files);
+  };
+
+  const handleDragOver = (e) => e.preventDefault();
+
+  return (
+    <div className="space-y-4">
+      <div onDrop={handleDrop} onDragOver={handleDragOver} className="...">
+        {/* Éléments d’interface */}
+      </div>
+
+      {/* Affichage des fichiers uploadés */}
+      {images.length > 0 && (
+        <ul>
+          {images.map((file, index) => (
+            <li key={index}>{file.name}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+```
+🧾 ProductSelectInput
+Composant réutilisable pour sélectionner une catégorie.
+
+```jsx
+const ProductSelectInput = ({ label, name, value, onChange, options = [], required = false }) => (
+  <div>
+    <label className="...">
+      {label} {required && <span className="text-red-500">*</span>}
+    </label>
+    <select ...>
+      <option value="">-- Sélectionnez une option --</option>
+      {options.map((opt) => (
+        <option key={opt.value} value={opt.value}>
+          {opt.label}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+```
+📝 ProductTextArea
+Composant réutilisable pour les textes longs.
+
+```js
+const ProductTextArea = ({ label, rows, name, value, onChange, required = false }) => (
+  <div>
+    <label className="...">
+      {label} {required && <span className="text-red-500">*</span>}
+    </label>
+    <textarea ... />
+  </div>
+);
+
+```
+
+## 📦 la Page d'Inventaire (Inventory)
+
+La page d'inventaire permet aux utilisateurs de voir, rechercher, modifier et supprimer des produits. Les données sont récupérées depuis l'API Fake Store et affichées dans une grille responsive.
+
+🧠 Objectif:
+La page d'inventaire permet aux utilisateurs de voir, rechercher, modifier et supprimer des produits. Les données sont récupérées depuis l'API Fake Store et affichées dans une grille responsive.
+
+📄 InventoryPage (Page principale):
+
+Dans la page principale InventoryPage (page.jsx), on utilise useEffect pour récupérer les produits :
+
+```js
+useEffect(() => {
+  fetch('https://fakestoreapi.com/products')
+    .then((res) => res.json())
+    .then((data) => setProducts(data));
+}, []);
+
+```
+Les produits récupérés sont ensuite transmis au composant enfant InventoryProduct.
+
+🧹 2. Supprimer un Produit
+
+Un bouton de suppression dans le composant InventoryProduct appelle cette fonction :
+
+```js
+const handleDelete = async (productId) => {
+  const res = await fetch(`https://fakestoreapi.com/products/${productId}`, {
+    method: 'DELETE',
+  });
+  const deletedProduct = await res.json();
+  setProducts(prev => prev.filter(product => product.id !== productId));
+};
+
+```
+🔁 Cela supprime le produit à la fois du serveur et de l’interface.
+
+Il supprime un produit de la liste des produits de l'état, en particulier le produit avec le productId donné.
+
+```js
+setProducts(prev => prev.filter(product => product.id !== productId));
+```
+✏️ 3. Modifier un Produit
+
+Lors d’un clic sur le bouton "Modifier" :
+
+```js
+const handleEditClick = () => {
+  router.push(`/inventory/${product.id}`);
+};
+```
+Cela redirige vers une route dynamique /inventory/[id] qui charge le produit par son ID pour le modifier.
+
+🧩 Détail des Composants
+
+🖼️ InventoryHeading
+Affiche le titre et le sous-titre de la page avec une icône SVG
+
+🔍 InventorySearch
+Contient :
+
+Un champ de recherche
+
+Un menu déroulant de catégorie
+
+Un bouton Ajouter un produit (à implémenter)
+
+📦 InventoryProduct
+
+Affiche un produit avec :
+
+Image, titre, catégorie et prix
+
+Bouton Modifier → redirige vers la page de modification
+
+Bouton Supprimer → supprime le produit
+
+```js
+```
+✏️ Page de Modification de Produit
+
+Située dans /inventory/[id]/page.jsx
+
+🚚 Récupérer un Produit Spécifique
+
+```js
+useEffect(() => {
+  fetch(`https://fakestoreapi.com/products/${id}`)
+    .then(res => res.json())
+    .then(data => {
+      setProduct(data);
+      setFormData({
+        title: data.title,
+        price: data.price,
+        description: data.description,
+        category: data.category,
+        images: data.images || [],
+      });
+    });
+}, [id]);
+```
+🧾 Composant InventoryForm
+Formulaire réutilisable composé de :
+
+ProductInputField
+
+ProductTextArea
+
+ProductSelectInput
+
+ProductImageUploader
+
+```js
+const handleSubmit = async (formData) => {
+  const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const updatedProduct = await res.json();
+  router.push('/inventory');
+};
+
+```
