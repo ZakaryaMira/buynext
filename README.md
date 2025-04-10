@@ -1,20 +1,39 @@
-# BUYNEXT Project
-# 🛒 Weasydoo Store – Test Technique Frontend
+# BUYNEXT Project  
+## 🛒 Weasydoo Store – Test Technique Frontend
 
-Ce projet est une application e-commerce développée avec **Next.js** et l’API [FakeStoreAPI](https://fakestoreapi.com/), dans le cadre d’un test technique pour l’entreprise **Weasydoo**. L’objectif est de démontrer mes compétences en développement web moderne, incluant l’authentification, les opérations CRUD, et l’optimisation des performances.
+Ce projet est une application e-commerce développée avec **Next.js** et **React Native**, utilisant l’API [FakeStoreAPI](https://fakestoreapi.com/).  
+Il a été réalisé dans le cadre d’un **test technique pour l’entreprise Weasydoo**, visant à démontrer mes compétences en développement frontend moderne, notamment :
+
+- L’authentification utilisateur
+- Les opérations CRUD
+- La recherche et le filtrage
+- L’optimisation des performances web & mobile
+  
+🧰 Pile Technologique
+
+🌐 Application Web (Next.js)
+-Framework : Next.js
+-Bibliothèque : React
+-Style : Tailwind CSS
+-Tests : Jest, React Testing Library
+
+📱 Application Mobile (React Native)
+Framework : React Native
+Style : Tailwind CSS (via NativeWind)
+Tests : Jest
 
 ## 📄 Pages implémentées
 
 - `Page de destination` – Accueil général de l’application
-- `Connexion` – Formulaire de connexion utilisateur
-- `Créer un compte` – Formulaire d’inscription
-- `page produit` – Affichage de tous les produits
-- `Acheter un produit` – Détail d’un produit sélectionné
-- `Ajouter un produit` – Formulaire pour publier un nouveau produit
-- `Liste de mes produits` – Tous les produits ajoutés par l’utilisateur connecté
-- `Modifier un produit` – Modification des produits existants
+- `Connexion (login)` – Formulaire de connexion utilisateur
+- `Créer un compte (signup)` – Formulaire d’inscription
+- `page produit (products)` – Affichage de tous les produits
+- `Acheter un produit ()` – Détail d’un produit sélectionné
+- `Ajouter un produi (admin)` – Formulaire pour publier un nouveau produit
+- `Liste de mes produits (inventory)` – Tous les produits ajoutés par l’utilisateur connecté
+- `Modifier un produit ` – Modification des produits existants
 
-## 🏠 Page de destination (Landing Page)
+## 📝 Page de destination (Landing Page)
 La page de destination, première vue de l'application, met en avant les fonctionnalités principales du site e-commerce.
 
 🔧 Composants inclus
@@ -904,3 +923,44 @@ Affiche les produits filtrés sous forme de grille.
 AllProducts est un composant qui affiche un produit.
 
 OurCategories permet probablement de filtrer par catégorie (non encore lié à la recherche).
+
+🔎 Mettre en œuvre le filtrage par catégories
+Mettez à jour le composant « NosCatégories » afin que, lorsqu'un utilisateur clique sur une catégorie, le paramètre de requête dans l'URL soit mis à jour. Cela permettra à la page Produits de recevoir la catégorie sélectionnée et de filtrer les produits en conséquence.
+
+```js
+  const router = useRouter(); // Permettez au routeur de naviguer par programmation.
+  
+  const handleCategoryClick = (category) => {
+    router.push(`/products?category=${category}`); // Rediriger vers la page des produits contenant la catégorie sélectionnée
+  };
+
+```
+Changements clés pour le filtrage par catégorie et recherche
+Ajout du filtrage par catégorie :
+
+Nous avons ajouté la possibilité de filtrer par catégorie en plus de la recherche par titre.
+
+La catégorie est récupérée via searchParams?.category.
+```js
+  // Get category and search query from the searchParams
+  const category = searchParams?.category;
+```
+Modification de la logique de filtrage :
+
+Nous avons combiné deux conditions de filtrage : par titre et par catégorie.
+
+Si une catégorie est sélectionnée, nous filtrons les produits en fonction de cette catégorie et de leur titre. Si aucune catégorie n'est sélectionnée, tous les produits sont inclus.
+```js
+  // Filter products based on category and search query
+  const filterData = data.filter((product) => {
+    const isCategoryMatch = category ? product.category.toLowerCase().includes(category.toLowerCase()) : true;
+    const isSearchMatch = product.title.toLowerCase().includes(search);
+    return isCategoryMatch && isSearchMatch;
+  });
+```
+Filtrage combiné :
+```js
+return isCategoryMatch && isSearchMatch;
+```
+
+ Les utilisateurs peuvent maintenant affiner leur recherche en fonction de la catégorie et du titre.
