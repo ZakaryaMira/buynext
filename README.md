@@ -35,7 +35,7 @@ Il a été réalisé dans le cadre d’un **test technique pour l’entreprise W
 - `Modifier un produit ` – Modification des produits existants
 
 ## 📝 Documentation
-- [`/app/README.md`](./app/README.md) : Documentation détaillée de l'application Next.js  
+- [`src/app/README.md`](./src/app/README.md) : Documentation détaillée de l'application Next.js
 - [`/Mobile/README.md`](./Mobile/README.md) : Documentation détaillée de l'application React Native  
 
 ## ⚙️ Setup Instructions
