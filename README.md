@@ -9,6 +9,7 @@ Il a été réalisé dans le cadre d’un **test technique pour l’entreprise W
 - La recherche et le filtrage
 - L’optimisation des performances web & mobile
   
+
 ## 🧰 Pile Technologique
 
 🌐 Application Web (Next.js)
@@ -21,6 +22,20 @@ Il a été réalisé dans le cadre d’un **test technique pour l’entreprise W
 - Framework : React Native
 - Style : Tailwind CSS (via NativeWind)
 - Tests : Jest
+
+🧰 Pile Technologique
+
+🌐 Application Web (Next.js)
+-Framework : Next.js
+-Bibliothèque : React
+-Style : Tailwind CSS
+-Tests : Jest, React Testing Library
+
+📱 Application Mobile (React Native)
+Framework : React Native
+Style : Tailwind CSS (via NativeWind)
+Tests : Jest
+
 
 ## 📄 Pages implémentées
 
