@@ -1,9 +1,9 @@
-# 🛒 BUYNEXT Web – Next.js App
+# 🌐 BUYNEXT Web – Next.js App
 
 Cette application web a été développée avec **Next.js** dans le cadre du test technique pour Weasydoo.  
 Elle consomme les données de [FakeStoreAPI](https://fakestoreapi.com) et propose une interface responsive, moderne et performante.
 
-##  Fonctionnalités Clés
+## 🌐 Fonctionnalités Clés
 
 -  Authentification (login/signup) avec validation de formulaire
 -  Liste des produits avec recherche et filtrage par catégorie
@@ -18,17 +18,145 @@ Elle consomme les données de [FakeStoreAPI](https://fakestoreapi.com) et propos
 - Données mockées pour les produits, utilisateurs, catégories
 
 ## 🛠️ Démarrage du Projet
+
 ```bash
 npm install
 npm run dev
 ```
 
-## 📝 Page de destination (Landing Page)
+# 📝 Page de destination (Page d'accueil web de l'application)
+
+## 🧠 Objectif
 La page de destination, première vue de l'application, met en avant les fonctionnalités principales du site e-commerce.
 
-# 🔧 Composants inclus
+## 🧱 Composants inclus
 
-# ✅ NavComponent – Navigation Globale avec Barre de Recherche
+## 🧩 HeroSection
+
+#### 🔍 Description
+
+Section principale de la landing page, composée de :
+
+- **Un titre accrocheur** : `BuyNext`
+- **Un slogan** : `Votre prochain achat, à portée de clic`
+- **Un bouton d’appel à l’action** : *Découvrez les offres*
+- **Des icônes flottantes** représentant les différentes catégories de produits :
+
+  - Jeux vidéo  
+  - Vêtements  
+  - Téléphones  
+  - Outils  
+
+#### ♻️ Composant réutilisable : `FloatingIcon`
+
+Comme les icônes flottantes ont toutes le même design, il est judicieux de créer un composant réutilisable :
+
+```js
+import React from 'react'
+import Image from 'next/image'
+
+const FloatingIcon = ({ src, alt, positionClasses }) => {
+  return (
+    <div className={`absolute ${positionClasses}`}>
+      <div className="bg-white p-4 rounded-full shadow-xl">
+        <Image src={src} alt={alt} width={60} height={60} />
+      </div>
+    </div>
+  )
+}
+
+export default FloatingIcon
+
+```
+Cette section est centrée et responsive, avec des animations douces pour capter l’attention de l’utilisateur.
+
+#### Intégration dans HeroSection
+
+```js
+import React from 'react'
+import FloatingIcon from './FloatingIcon'
+
+// SVG imports
+import GameIcon from '@/app/SVG/GameIcon.svg'
+import PhoneIcon from '@/app/SVG/PhoneIcon.svg'
+import ShirtIcon from '@/app/SVG/ShirtIcon.svg'
+import ToolIcon from '@/app/SVG/ToolIcon.svg'
+import Link from 'next/link'
+
+const HeroSection = () => {
+  return (
+    <section className="relative w-full min-h-screen bg-[#f9f9f9] flex flex-col items-center justify-center text-center px-4 py-20 overflow-hidden">
+      <FloatingIcon src={GameIcon} alt="Game Icon" positionClasses="top-24 left-6 sm:top-32 sm:left-16 md:top-40 md:left-32 lg:top-48 lg:left-40"/>
+      <FloatingIcon src={ShirtIcon} alt="Shirt Icon" positionClasses="top-20 right-6 sm:top-28 sm:right-16 md:top-36 md:right-32 lg:top-44 lg:right-40"/>
+      <FloatingIcon src={PhoneIcon} alt="Phone Icon" positionClasses="bottom-20 left-6 sm:bottom-28 sm:left-16 md:bottom-36 md:left-32 lg:bottom-44 lg:left-40"/>
+      <FloatingIcon src={ToolIcon} alt="Tool Icon" positionClasses="bottom-20 right-6 sm:bottom-28 sm:right-16 md:bottom-36 md:right-32 lg:bottom-44 lg:right-40"/>
+      <h1 className="text-5xl sm:text-6xl md:text-7xl heading-black text-[#212121] drop-shadow-md -rotate-3">BuyNext</h1>
+      <p className="mt-6 text-lg sm:text-xl md:text-2xl text-gray-600 max-w-md sm:max-w-xl heading-extra-bold">Votre prochain achat, à portée de clic</p>
+      <Link href="/products" className="mt-10 bg-[#FFC107] hover:bg-[#e2ac00] text-[#212121] heading-extra-bold px-15 py-4 rounded-lg shadow-lg transition duration-300">Découvrez les offres</Link>
+    </section>
+  )
+}
+export default HeroSection
+```
+#### 🧩 Nos Produits (OurProducts)
+####  Description
+
+La section Nos Produits met en avant les différentes catégories de produits disponibles sur le site. Elle permet à l’utilisateur de s’orienter rapidement vers les produits de son choix.
+
+### ♻️ Composant réutilisable : `ProductCategoryCard`
+
+Ce composant représente une **carte de catégorie générique**.
+
+#### Props
+
+- **`icon`** : une icône ou image représentant la catégorie  
+- **`title`** : le nom de la catégorie
+- 
+
+```js
+const ProductCategoryCard = ({ icon, title }) => {
+  return (
+    <div className='bg-[F2F2F2] p-6 rounded-xl shadow-md flex flex-col items-center justify-center hover:scale-105 transition-all duration-200 w-[180px] h-[220px] gap-2'>
+      <div className='text-4x mb-4'>{icon}</div>
+      <p className='text-center heading-extra-bold'>{title}</p>
+    </div>
+  )
+}
+```
+ #### 💡 Intégration dans OurProducts
+
+```js
+import ProductCategoryCard from "./ProductCategoryCard";
+import Gem from "../app/SVG/Gem.svg";
+import Male from "../app/SVG/Male.svg";
+import Female from "../app/SVG/Female.svg";
+import Gamepad from "../app/SVG/Gamepad.svg";
+import Image from "next/image";
+
+const OurProducts = () => {
+  return (
+    <section className="w-full bg-white py-12 flex flex-col items-center gap-2">
+      <h2 className="text-4xl font-bold text-[#212121] mb-4 text-5xl">Nos Produits</h2>
+      <p className="text-2xl text-gray-600 mb-10">
+        Découvrez notre sélection de produits de qualité
+      </p>
+
+      <div className="flex items-center justify-center gap-6 flex-wrap mb-30">
+        <ProductCategoryCard icon={<Image src={Gamepad} alt="Gamepad" />} title="Électronique" />
+        <ProductCategoryCard icon={<Image src={Gem} alt="Gem" />} title="Gemmes" />
+        <ProductCategoryCard icon={<Image src={Male} alt="Male" />} title="Mode Hommes" />
+        <ProductCategoryCard icon={<Image src={Female} alt="Female" />} title="Mode Femmes" />
+      </div>
+    </section>
+  );
+};
+
+export default OurProducts;
+
+```
+
+
+#### 🧩 NavComponent – Navigation Globale avec Barre de Recherche
 
 La barre de navigation située en haut de la page contient :
 
@@ -42,68 +170,7 @@ La barre de navigation située en haut de la page contient :
   - Liste des produits
   - Déconnexion
 - **Icône du panier** – représentant les achats
-  
-
-
-
-✅ HeroSection
-
-Section principale de la landing page, composée de :
-
-**Un titre accrocheur** : "BuyNext"
-
-**Un slogan** : "Votre prochain achat, à portée de clic"
-
-**Un bouton d’appel à l’action** : Découvrez les offres
-
-**Icônes flottantes représentant les différentes catégories de produits** :
-
-  -Jeux vidéo
-
-  -Vêtements
-
-  -Téléphones
-
-  -Outils
-
-Cette section est centrée et responsive, avec des animations douces pour capter l’attention de l’utilisateur.
-
-🛒 Section : Nos Produits
-La section Nos Produits met en avant les différentes catégories de produits disponibles sur le site. Elle vise à guider rapidement l’utilisateur vers ce qui l’intéresse.
-
-```js
-<ProductCategoryCard icon={<Image src={Gamepad} alt="Gamepad" />} title="Électronique" />
-<ProductCategoryCard icon={<Image src={Gem} alt="Gem" />} title="Gemmes" />
-<ProductCategoryCard icon={<Image src={Male} alt="Male" />} title="Mode Hommes" />
-<ProductCategoryCard icon={<Image src={Female} alt="Female" />} title="Mode Femmes" />
-```
-
-Chaque carte affiche :
-
-Une icône représentant la catégorie
-
-**Un titre descriptif**
-
-**Un style responsive avec une légère animation au survol**
-
-📦 Réutilisabilité : ProductCategoryCard
-Ce composant est une carte générique de catégorie de produit. Il prend deux props :
-
-**icon** : une icône SVG ou une image
-
-**title** : le nom de la catégorie
-
-```js
-const ProductCategoryCard = ({ icon, title }) => {
-  return (
-    <div className='bg-[F2F2F2] p-6 rounded-xl shadow-md flex flex-col items-center justify-center hover:scale-105 transition-all duration-200 w-[180px] h-[220px] gap-2'>
-      <div className='text-4x mb-4'>{icon}</div>
-      <p className='text-center heading-extra-bold'>{title}</p>
-    </div>
-  )
-}
-```
-
+- 
 ✨ Pied de page (Footer)
 Le footer du site contient des informations importantes et des liens rapides pour améliorer l’expérience utilisateur. Il est visible sur toutes les pages.
 
