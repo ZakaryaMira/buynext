@@ -76,3 +76,254 @@ Il s'agit d'une écran complète et non d'un composant réutilisable isolé.
   </TouchableOpacity>
 </View>
 ```
+# 📝 Page de Connexion (Login) & Création de Compte (Sign Up)
+
+## 🧠 Objectif
+Système d'Authentification — Connexion & Création de Compte : Permettre aux utilisateurs de se connecter et de s'inscrire sur BUYNEXT via l’application mobile, afin d’accéder aux fonctionnalités personnalisées et sécurisées de la plateforme.
+
+## 🔗 Communication avec l’API (Fetching)
+Les pages de connexion et d’inscription de l’application mobile communiquent toutes les deux avec l’API FakeStoreAPI en utilisant la méthode fetch.
+
+### Connexion : POST /auth/login
+
+```js
+  const handleLogin = async (formData) => {
+    try {
+      const response = await fetch('https://fakestoreapi.com/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Login success, token:", data.token);
+      await SecureStore.setItemAsync('userToken', data.token);
+      Alert.alert("Bienvenue !", "Connexion réussie ✅");
+
+    } catch (error) {
+      console.error("Erreur de connexion:", error);
+      Alert.alert("Erreur", "Nom d'utilisateur ou mot de passe incorrect.");
+    }
+  };
+
+```
+- Endpoint : /auth/login
+- But : Authentifier un utilisateur et obtenir un token
+- Succès : Enregistre le token dans Expo SecureStore
+- Échec : Affiche une message d’échec
+
+```js
+    {error && (
+    <Text style={styles.errorText}>{error}</Text>
+    )}
+```
+### Inscription : POST /users
+
+```js
+  const handleSignup = async (formData) => {
+    const user = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    try {
+      const response = await fetch('https://fakestoreapi.com/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("User created:", data);
+      Alert.alert("Succès", "Compte créé avec succès !");
+    } catch (error) {
+      console.error("Erreur lors de l'inscription:", error);
+      Alert.alert("Erreur", "Une erreur s'est produite lors de la création du compte.");
+    }
+  };
+```
+- Endpoint : /users
+- But : Créer un nouvel utilisateur
+- Succès : Affiche une confirmation
+
+## 💾 Stockage du Token: 
+
+Après une connexion réussie :
+
+```js
+await SecureStore.setItemAsync('userToken', data.token);
+```
+- Permet de conserver la session utilisateur
+- Peut être utilisé pour sécuriser les pages privées
+- Peut être lu plus tard dans des requêtes sécurisées
+- 
+## ♻️ Composant réutilisable : `FormComponentTemplate`
+Ce composant rend un formulaire stylisé configurable via props, ce qui évite la duplication de code et améliore la maintenabilité.
+
+### Props:
+
+**`title`**: titre principal du formulaire
+
+**`description`**: texte secondaire pour informer l'utilisateur
+
+**`fields`**: tableau d’objets pour générer dynamiquement les champs (name, label, type placeholder, required)
+
+**`onSubmit`**: fonction asynchrone à exécuter à la soumission
+
+**`button`**: texte du bouton de validation
+
+### Code source :
+
+```js
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, Button, Alert } from 'react-native';
+
+export default function FormComponentTemplate({ title, description, fields, onSubmit, button }) {
+  const [formData, setFormData] = useState({});
+  const [error, setError] = useState("");
+
+  const handleChange = (name, value) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setError("");
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await onSubmit(formData);
+    } catch (err) {
+      setError("Une erreur s'est produite lors de la soumission.");
+      console.error("Form submission error:", err);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{description}</Text>
+
+      {fields.map(field => (
+        <View key={field.name} style={styles.inputGroup}>
+          <Text style={styles.label}>{field.label}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={field.placeholder}
+            secureTextEntry={field.type === 'password'}
+            onChangeText={(value) => handleChange(field.name, value)}
+          />
+        </View>
+      ))}
+
+      {error ? <Text style={styles.error}>{error}</Text> : null}
+
+      <Button title={button} onPress={handleSubmit} color="#FFC107" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 220,
+    padding: 20,
+    borderRadius: 15,
+    backgroundColor: '#fff',
+    elevation: 10,
+    marginHorizontal: 15,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 12,
+    color: '#212121',
+  },
+  description: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#212121',
+  },
+  inputGroup: {
+    marginBottom: 12,
+  },
+  label: {
+    fontWeight: 'bold',
+    marginBottom: 4,
+    color: '#212121',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 6,
+    padding: 10,
+  },
+  error: {
+    color: '#EF233C',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+});
+
+
+```
+
+### 💡 Intégration dans Connexion (/login)
+
+Utilise le FormComponentTemplate pour permettre à l’utilisateur de se connecter via l’API 
+
+```js
+return (
+    <>
+    <FormComponentTemplate
+      title="Connexion"
+      description="Connectez-vous pour accéder à votre compte"
+      button="Se connecter"
+      onSubmit={handleLogin}
+      fields={[
+        { name: 'username', label: "Nom d'utilisateur", type: 'text', placeholder: "Entrez votre nom d'utilisateur", required: true },
+        { name: 'password', label: 'Mot de passe', type: 'password', placeholder: 'Entrez votre mot de passe', required: true },
+      ]}
+    />
+    {error && (
+    <Text style={styles.errorText}>{error}</Text>
+    )}
+```
+## Champs :
+- Nom d'utilisateur
+- Mot de passe
+
+### 💡 Intégration dans Inscription (/signup)
+Soumet les données utilisateur à l’API FakeStore :
+
+```js
+     <FormComponentTemplate
+      title="Créer un compte"
+      description="Remplissez les champs pour vous inscrire"
+      button="S'inscrire"
+      onSubmit={handleSignup}
+      fields={[
+        { name: 'username', label: "Nom d'utilisateur", type: 'text', placeholder: "Entrez votre nom d'utilisateur", required: true },
+        { name: 'email', label: 'Email', type: 'email', placeholder: 'Entrez votre email', required: true },
+        { name: 'password', label: 'Mot de passe', type: 'password', placeholder: 'Entrez votre mot de passe', required: true },
+      ]}
+    />
+```
+## Champs :
+- Nom d'utilisateur
+- Email
+- Mot de passe

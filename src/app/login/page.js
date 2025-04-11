@@ -1,9 +1,12 @@
 'use client';
-
-import React from 'react'
+import React, { useState } from 'react';
 import FormComponentTemplate from '../FormComponentTemplate'
+import { useRouter } from 'next/navigation';
 
 const page = () => {
+  const [error, setError] = useState(null);
+  const router = useRouter();
+
   const handleLogin = async (formData) => {
     const credentials = {
       username: formData.username,
@@ -18,28 +21,27 @@ const page = () => {
       });
   
       const data = await response.json();
-  
       if (data.token) {
-        console.log("Token:", data.token);
-        alert("Connexion réussie !");
-        // Optionally save the token
         localStorage.setItem('token', data.token);
-        // Redirect or change UI state here if needed
+        router.push('/products');
       } else {
-        alert("Nom d'utilisateur ou mot de passe incorrect.");
+        setError("Nom d'utilisateur ou mot de passe incorrect.");
       }
     } catch (error) {
-      console.error("Erreur de connexion :", error);
-      alert("Une erreur s'est produite lors de la connexion.");
+      setError("Une erreur s'est produite lors de la connexion.");
     }
   };
   return (
+    <>
     <FormComponentTemplate title="Connectez-vous à votre compte" description="Entrez vos informations pour accéder à votre compte" button="Ce connecter" onSubmit={handleLogin} 
     fields={[
       {name: "username", label: "nom d'utilisateur",  type: "text", placeholder: "Entrez votre nom d'utilisateur", required: true,},
       {name: "password", label: "Mot de passe" , type: "password", placeholder: "Entrez votre password", required: true,}
     ]}
     />
+    {error && <p className="text-[#EF233C] heading-black text-base text-center mb-4">{error}</p>}
+    </>
+
   )
 }
 

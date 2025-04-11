@@ -31,7 +31,7 @@ La page de destination, première vue de l'application, met en avant les fonctio
 
 ## 🧱 Composants inclus
 
-## 🧩 HeroSection
+# 🧩 HeroSection
 
 #### 🔍 Description
 
@@ -155,81 +155,116 @@ export default OurProducts;
 
 ```
 
+# 📝 Page de Connexion (Login) & Création de Compte (Sign Up)
 
-#### 🧩 NavComponent – Navigation Globale avec Barre de Recherche
+## 🧠 Objectif
+Système d'Authentification — Connexion & Création de Compte : Permettre aux utilisateurs de se connecter et de s'inscrire sur BUYNEXT pour accéder aux fonctionnalités personnalisées et sécurisées du site.
 
-La barre de navigation située en haut de la page contient :
+## 🔗 Communication avec l’API (Fetching)
+Les pages de connexion et d'inscription communiquent toutes les deux avec l’API FakeStoreAPI via la méthode fetch.
 
-- **Logo de l'application** – _BuyNext_
-- **Barre de recherche** – pour rechercher un produit
-- **Lien "À propos"**
-- **Icône utilisateur** – au survol, un menu déroulant s'affiche avec :
-  - Connexion
-  - Créer un compte
-  - Ajouter un produit
-  - Liste des produits
-  - Déconnexion
-- **Icône du panier** – représentant les achats
-- 
-✨ Pied de page (Footer)
-Le footer du site contient des informations importantes et des liens rapides pour améliorer l’expérience utilisateur. Il est visible sur toutes les pages.
-
-📌 Sections incluses :
-
-**Logo & slogan**
-
-**Navigation** : Accueil, À propos, Contact
-
-**Compte** : Connexion, Inscription, Panier
-
-**Contact** : Email et téléphone
-
-✅ Inclus dans le layout global via RootLayout
-
-```jsx
-<NavComponent />
-{children}
-<Footer />
-
-
-
-
-```
-## 🔐 Page de Connexion (Login) & 🔑 Création de Compte (Sign Up)
-
-📄 Formulaires d’authentification – BUYNEXT
-Dans ce projet, les pages de connexion et création de compte partagent une structure commune basée sur un composant réutilisable appelé :
-
-✅ FormComponentTemplate
-Ce composant rend un formulaire stylisé configurable via props, ce qui évite la duplication de code et améliore la maintenabilité.
-
-📦 FormComponentTemplate.jsx
-🔧 Props attendues :
-**title**: titre principal du formulaire
-
-**description**: texte secondaire pour informer l'utilisateur
-
-**fields**: tableau d’objets pour générer dynamiquement les champs (name, label, type placeholder, required)
-
-**onSubmit**: fonction asynchrone à exécuter à la soumission
-
-**button**: texte du bouton de validation
-
-💡 Exemple d’utilisation :
+### Connexion : POST /auth/login
 
 ```js
-<FormComponentTemplate
-  title="Créez votre compte"
-  description="Remplissez les informations ci-dessous pour vous inscrire."
-  button="S'inscrire"
-  onSubmit={handleSignup}
-  fields={[
-    { name: 'username', label: 'Nom d’utilisateur', type: 'text', placeholder: 'Entrez votre nom d’utilisateur', required: true },
-    ...
-  ]}
-/>
+ const handleLogin = async (formData) => {
+    const credentials = {
+      username: formData.username,
+      password: formData.password,
+    };
+  
+    try {
+      const response = await fetch('https://fakestoreapi.com/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials),
+      });
+  
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        router.push('/products');
+      } else {
+        setError("Nom d'utilisateur ou mot de passe incorrect.");
+      }
+    } catch (error) {
+      setError("Une erreur s'est produite lors de la connexion.");
+    }
+  };
 ```
-💻 Code source :
+- Endpoint : /auth/login
+- But : Authentifier un utilisateur et obtenir un token
+- Succès : Enregistre le token dans localStorage
+- Échec : Affiche une message d’échec
+  
+```js
+  {error && <p className="text-[#EF233C] heading-black text-base text-center mb-4">{error}</p>}
+```
+### Inscription : POST /users
+   
+```js
+ const handleSignup = async (formData) => {
+    const user = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+    };
+
+    try {
+      const response = await fetch('https://fakestoreapi.com/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("User created:", data);
+      alert("Compte créé avec succès !");
+    } catch (error) {
+      console.error("Erreur lors de l'inscription:", error);
+      alert("Une erreur s'est produite lors de la création du compte.");
+    }
+  };
+
+```
+- Endpoint : /users
+- But : Créer un nouvel utilisateur
+- Succès : Affiche une confirmation
+  
+## 💾 Stockage du Token: 
+
+Après une connexion réussie :
+
+```js
+localStorage.setItem('token', data.token);
+```
+- Permet de conserver la session utilisateur
+- Peut être utilisé pour sécuriser les pages privées
+- Peut être lu plus tard dans des requêtes sécurisées
+
+## ♻️ Composant réutilisable : `FormComponentTemplate`
+Ce composant rend un formulaire stylisé configurable via props, ce qui évite la duplication de code et améliore la maintenabilité.
+
+### Props:
+
+**`title`**: titre principal du formulaire
+
+**`description`**: texte secondaire pour informer l'utilisateur
+
+**`fields`**: tableau d’objets pour générer dynamiquement les champs (name, label, type placeholder, required)
+
+**`onSubmit`**: fonction asynchrone à exécuter à la soumission
+
+**`button`**: texte du bouton de validation
+
+
+### Code source :
+
 ```js
 "use client";
 import { useState } from "react";
@@ -279,63 +314,92 @@ export default function FormComponentTemplate({ title, description, fields, onSu
         {button}
       </button>
     </form>
-  );
+  ); 
 }
 ```
+### 💡 Intégration dans Connexion (/login)
 
-🔐 Page : Connexion (/login)
 Utilise le FormComponentTemplate pour permettre à l’utilisateur de se connecter via l’API 
+
 ```js
-const handleLogin = async (formData) => {
-  const credentials = {
-    username: formData.username,
-    password: formData.password,
-  };
-
-  const response = await fetch('https://fakestoreapi.com/auth/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
-  });
-
-  const data = await response.json();
-  if (data.token) {
-    localStorage.setItem('token', data.token);
-    alert("Connexion réussie !");
-  } else {
-    alert("Nom d'utilisateur ou mot de passe incorrect.");
-  }
-};
+return (
+    <>
+    <FormComponentTemplate title="Connectez-vous à votre compte" description="Entrez vos informations pour accéder à votre compte" button="Ce connecter" onSubmit={handleLogin} 
+    fields={[
+      {name: "username", label: "nom d'utilisateur",  type: "text", placeholder: "Entrez votre nom d'utilisateur", required: true,},
+      {name: "password", label: "Mot de passe" , type: "password", placeholder: "Entrez votre password", required: true,}
+    ]}
+    />
+    {error && <p className="text-[#EF233C] heading-black text-base text-center mb-4">{error}</p>}
+    </>
+  )
 ```
-🧪 Champs :
-Nom d'utilisateur
-Mot de passe
+## Champs :
+- Nom d'utilisateur
+- Mot de passe
 
-🆕 Page : Inscription (/signup)
+### 💡 Intégration dans Inscription (/signup)
 Soumet les données utilisateur à l’API FakeStore :
 
 ```js
-const handleSignup = async (formData) => {
-  const user = {
-    username: formData.username,
-    email: formData.email,
-    password: formData.password,
-  };
-
-  const response = await fetch('https://fakestoreapi.com/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user),
-  });
-
-  const data = await response.json();
-  alert("Compte créé avec succès !");
+return (
+    <FormComponentTemplate
+      title="Créez votre compte" description="Remplissez les informations ci-dessous pour vous inscrire."button="S'inscrire"onSubmit={handleSignup}
+      fields={[
+        { name: 'username', label: "Nom d'utilisateur", type: 'text', placeholder: "Entrez votre nom d'utilisateur", required: true,},
+        { name: 'email', label: 'Email', type: 'email', placeholder: 'Entrez votre email', required: true,},
+        { name: 'password',  label: 'Mot de passe',  type: 'password',  placeholder: 'Entrez votre mot de passe',  required: true,},
+      ]}
+    />
+  );
 };
 ```
-🧾 Champs :
-Nom d'utilisateur
-Email
-Mot de passe
+## Champs :
+- Nom d'utilisateur
+- Email
+- Mot de passe
+
+
+
+#### 🧩 NavComponent – Navigation Globale avec Barre de Recherche
+
+La barre de navigation située en haut de la page contient :
+
+- **Logo de l'application** – _BuyNext_
+- **Barre de recherche** – pour rechercher un produit
+- **Lien "À propos"**
+- **Icône utilisateur** – au survol, un menu déroulant s'affiche avec :
+  - Connexion
+  - Créer un compte
+  - Ajouter un produit
+  - Liste des produits
+  - Déconnexion
+- **Icône du panier** – représentant les achats
+- 
+✨ Pied de page (Footer)
+Le footer du site contient des informations importantes et des liens rapides pour améliorer l’expérience utilisateur. Il est visible sur toutes les pages.
+
+📌 Sections incluses :
+
+**Logo & slogan**
+
+**Navigation** : Accueil, À propos, Contact
+
+**Compte** : Connexion, Inscription, Panier
+
+**Contact** : Email et téléphone
+
+✅ Inclus dans le layout global via RootLayout
+
+```jsx
+<NavComponent />
+{children}
+<Footer />
+
+
+
+
+```
 
 ##  🛍️ Page Produit
 

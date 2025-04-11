@@ -35,32 +35,11 @@ const page = () => {
 
   return (
     <FormComponentTemplate
-      title="Créez votre compte"
-      description="Remplissez les informations ci-dessous pour vous inscrire."
-      button="S'inscrire"
-      onSubmit={handleSignup}
+      title="Créez votre compte" description="Remplissez les informations ci-dessous pour vous inscrire."button="S'inscrire"onSubmit={handleSignup}
       fields={[
-        {
-          name: 'username',
-          label: "Nom d'utilisateur",
-          type: 'text',
-          placeholder: "Entrez votre nom d'utilisateur",
-          required: true,
-        },
-        {
-          name: 'email',
-          label: 'Email',
-          type: 'email',
-          placeholder: 'Entrez votre email',
-          required: true,
-        },
-        {
-          name: 'password',
-          label: 'Mot de passe',
-          type: 'password',
-          placeholder: 'Entrez votre mot de passe',
-          required: true,
-        },
+        { name: 'username', label: "Nom d'utilisateur", type: 'text', placeholder: "Entrez votre nom d'utilisateur", required: true,},
+        { name: 'email', label: 'Email', type: 'email', placeholder: 'Entrez votre email', required: true,},
+        { name: 'password',  label: 'Mot de passe',  type: 'password',  placeholder: 'Entrez votre mot de passe',  required: true,},
       ]}
     />
   );
