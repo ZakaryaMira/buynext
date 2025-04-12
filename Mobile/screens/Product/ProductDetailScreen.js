@@ -19,27 +19,31 @@ export default function ProductDetailScreen({ route }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={{ uri: product.image }} style={styles.image} />
-      <Text style={styles.title}>{product.title}</Text>
-      <Text style={styles.category}>{product.category}</Text>
-      <Text style={styles.price}>{product.price} €</Text>
-      <Text style={styles.description}>{product.description}</Text>
-      <Button style={styles.buyButton}>
-        <Text style={styles.buyButtonText}>Acheter maintenant </Text>
-      </Button>
-      <Button style={styles.addButton}>
-        <Text style={styles.addButtonText}>Ajouter au panier</Text>
-      </Button>
-    </ScrollView>
+        <Image source={{ uri: product.image }} style={styles.image} />
+        <Text style={styles.title}>{product.title}</Text>
+        <Text style={styles.category}>{product.category}</Text>
+        <Text style={styles.price}>{product.price} €</Text>
+        <Text style={styles.description}>{product.description}</Text>
+        <Button style={styles.buyButton}>
+          <Text style={styles.buyButtonText}>Acheter maintenant </Text>
+        </Button>
+        <Button style={styles.addButton}>
+          <Text style={styles.addButtonText}>Ajouter au panier</Text>
+        </Button>
+      </ScrollView>
+
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    flex: 1,
+    paddingTop: 100,
+    padding: 10,
     backgroundColor: '#fff',
     borderColor: '#212121',
     borderWidth: 1
+    
   },
   image: {
     height: 200,

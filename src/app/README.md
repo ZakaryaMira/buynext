@@ -636,7 +636,7 @@ Sinon, la liste reste vide. Le tableau data est mis à jour uniquement s’il y 
 
 
 
-# 📝 # 📝 Page de détails du produit (`/products/[id]`)
+# 📝 Page de détails du produit (`/products/[id]`)
 
 ## 🧠 Objectif
 Display detailed information for a selected product from the product list.
@@ -748,25 +748,125 @@ Dossier [id] → page.js
 Transmission à ProductDetails
     ⬇️ affichage des détails produit
 ```
-## 🧾 page admin 
+# 📝 Documentation de la Page Admin – Ajout de Produit
 
-🧠 Objectif:
-Elle permet aux administrateurs d’ajouter de nouveaux produits au site via l’API Fake Store. Elle dispose d’une interface conviviale avec un système de téléchargement d’image par glisser-déposer et des composants réutilisables pour une architecture de code propre.
+## 🧠 Objectif:
+Elle permet aux administrateurs d’ajouter de nouveaux produits au site. Elle dispose d’une interface conviviale avec un système de téléchargement d’image par glisser-déposer et des composants réutilisables.
 
-📄 AddProductPage (Page principale)
+## 🔐 Vérification de sécurité & Authentification:
+Pour empêcher tout accès non autorisé, la page vérifie si un token JWT valide est stocké dans localStorage. Si l’utilisateur n’est pas connecté ou que le token est absent :
 
 ```js
-"use client";
-import FormProducts from "./FormProducts";
-import Image from "next/image";
-import Add from '../SVG/Add.svg'
-import ProductionHeading from "./ProductionHeading";
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setHasToken(!!token); 
+  }, []);
 
-// Page d’ajout de produit pour l’administrateur
-export default function AddProductPage() {
+````
+-  Si hasToken est null : affichage d’un écran de chargement
+-  Si hasToken est true : affichage du formulaire d’ajout
+-  Si hasToken est false : message d’accès refusé
+  
+```js
 
-  // Gère la soumission du formulaire vers l’API Fake Store
-  const handleSubmit = async (formData) => {
+ return hasToken === null ? (
+    <div className="min-h-screen flex items-center justify-center">
+      <p className="text-lg text-gray-600">Chargement...</p>
+    </div>
+  ) : hasToken ? (
+    <section className="min-h-screen bg-[#FAFAFA] p-6 relative">
+      {showModal && (
+        <SuccessModal message="Produit ajouté avec succès !" onClose={() => setShowModal(false)}/>)}
+        <ProductionHeading src={Add} width={50} height={50} title={"Ajouter un produit"} />
+        <FormProducts onSubmit={handleSubmit} />
+    </section>
+  ) : (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#FAFAFA]">
+      <h1 className="text-3xl text-[#EF233C] heading-black mb-2">⛔ Accès refusé</h1>
+      <p className="text-base text-[#212121] heading-extra-bold">Vous devez être connecté pour ajouter un produit.</p>
+    </div>
+  );
+
+```
+## 🏛️ Structure des composants:
+`AddProductPage` – Page principale Admin
+Responsable de l'affichage selon le statut d’authentification de l’utilisateur.
+  - Gère la soumission du formulaire
+  - Envoie une requête POST à Fake Store API
+  - Affiche une modale (SuccessModal) après succès
+
+```js
+<FormProducts onSubmit={handleSubmit} />
+<SuccessModal message="Produit ajouté avec succès !" />
+```
+## 🧱 Composants inclus
+
+### ♻️ Composants réutilisables: `ProductionHeading`
+En-tête réutilisable avec icône et titre, utilisé dans les pages admin liées à la production.
+
+```js
+<ProductionHeading src={Add} width={50} height={50} title="Ajouter un produit"
+/>
+```
+### 🧩 Formulaire principal `FormProducts`:
+#### Divisé en deux sections :
+- Côté gauche : informations de base (titre, prix, catégorie, description)
+- Côté droit : téléversement d’image
+#### Sous-composants :
+- `ProductInputFiled` – champs de texte/nombre
+- `ProductSelectInput` – menu déroulant des catégories
+- `ProductTextArea` – zone de texte pour la description
+- `ProductImageUploader` – gestion de l’upload d’image avec aperçu
+
+```jsx
+<ProductInpiutFiled name="title" value={formData.title} onChange={handleInputChange} />
+<ProductSelectInput options={categoryOptions} />
+<ProductImageUploader images={formData.images} onUpload={...} />
+```
+#### 🧩 Téléversement d'image : 
+- `ProductImageUploader`
+Fonctionnalités :
+  - Glisser-déposer
+  - Aperçu des fichiers
+  - Libération sécurisée des URLs (blobs)
+  - 
+```js
+useEffect(() => {
+  const urls = images.map((file) => URL.createObjectURL(file));
+  return () => urls.forEach((url) => URL.revokeObjectURL(url));
+}, [images]);
+```
+#### 🧩 Champs du formulaire:
+`ProductInputFiled`: Champ de saisie réutilisable pour le texte ou les nombres avec validation de base.
+
+```js
+<ProductInpiutFiled
+  label="Prix du produit"
+  type="number"
+  required
+/>
+```
+`ProductSelectInput`: Menu déroulant pour la sélection de la catégorie du produit.
+
+```js
+<ProductSelectInput
+  options={[
+    { value: 'electronics', label: 'Électronique' },
+    ...
+  ]}
+/>
+```
+`ProductTextArea`: Zone de texte pour la description du produit.
+
+```js
+<ProductTextArea
+  label="Description du produit"
+  rows={4}
+/>
+```
+## 🚀 Intégration API
+```js
+const handleSubmit = async (formData) => {
     try {
       const product = {
         title: formData.title,
@@ -784,154 +884,14 @@ export default function AddProductPage() {
 
       const data = await response.json();
       console.log("Produit ajouté:", data);
-      alert("Produit ajouté avec succès !");
+      setShowModal(true); 
     } catch (err) {
       console.error("Erreur lors de l'ajout du produit:", err);
       alert("Erreur lors de l'ajout !");
     }
   };
-
-  // Affiche l'en-tête et le formulaire
-  return (
-    <section className="min-h-screen bg-[#FAFAFA] p-6">
-        <ProductionHeading src={Add} width={50} height={50} title={"Ajouter un produit"}/>
-        <FormProducts onSubmit={handleSubmit} />
-    </section>
-  );
-}
-
-
 ```
-🧩 ProductionHeading
-Composant réutilisable pour afficher un en-tête de page avec une icône.
-
-```js
-const ProductionHeading = ({src, width , height, title}) => {
-  return (
-    <div className="flex items-center justify-center gap-4 mt-16 ">
-        <Image src={src} width={width} height={height} />
-        <h1 className="text-5xl text-[#212121] heading-black font-extrabold ">{title}</h1>
-    </div>
-  );
-};
-```
-📦 FormProducts (Composant de formulaire)
-Gère tous les champs nécessaires pour créer un produit. Les données sont soumises au composant parent via la prop onSubmit.
-
-```js
-export default function ProductForm({onSubmit}) {
-  const [formData, setFormData] = useState({
-    title: "",
-    price: "",
-    category: "",
-    description: "",
-    images: [],
-  });
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSubmit(formData); // Envoie les données au parent
-  };
-
-  // Options de catégorie pour le menu déroulant
-  const categoryOptions = [
-    { value: 'electronics', label: 'Électronique' },
-    { value: 'fashion', label: 'Mode' },
-    { value: 'books', label: 'Livres' },
-    { value: 'sports', label: 'Sport' },
-  ];
-
-  return (
-    <form onSubmit={handleSubmit} className="...">
-      {/* Partie gauche : informations de base */}
-      <ProductInpiutFiled ... />
-      <ProductSelectInput ... />
-      <ProductTextArea ... />
-
-      {/* Partie droite : téléversement d’image */}
-      <ProductImageUploader ... />
-
-      {/* Bouton de soumission */}
-    </form>
-  );
-}
-```
-🖼 ProductImageUploader
-Entrée d’image par glisser-déposer avec une option de sélection classique.
-
-```js
-const ProductImageUploader = ({ images, onUpload }) => {
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    onUpload(files);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const files = Array.from(e.dataTransfer.files);
-    onUpload(files);
-  };
-
-  const handleDragOver = (e) => e.preventDefault();
-
-  return (
-    <div className="space-y-4">
-      <div onDrop={handleDrop} onDragOver={handleDragOver} className="...">
-        {/* Éléments d’interface */}
-      </div>
-
-      {/* Affichage des fichiers uploadés */}
-      {images.length > 0 && (
-        <ul>
-          {images.map((file, index) => (
-            <li key={index}>{file.name}</li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-};
-```
-🧾 ProductSelectInput
-Composant réutilisable pour sélectionner une catégorie.
-
-```jsx
-const ProductSelectInput = ({ label, name, value, onChange, options = [], required = false }) => (
-  <div>
-    <label className="...">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <select ...>
-      <option value="">-- Sélectionnez une option --</option>
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  </div>
-);
-```
-📝 ProductTextArea
-Composant réutilisable pour les textes longs.
-
-```js
-const ProductTextArea = ({ label, rows, name, value, onChange, required = false }) => (
-  <div>
-    <label className="...">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <textarea ... />
-  </div>
-);
-
-```
-
-## 📦 la Page d'Inventaire (Inventory)
+# 📦 la Page d'Inventaire (Inventory)
 
 La page d'inventaire permet aux utilisateurs de voir, rechercher, modifier et supprimer des produits. Les données sont récupérées depuis l'API Fake Store et affichées dans une grille responsive.
 

@@ -37,7 +37,7 @@ npx expo install @react-navigation/native-stack
 # 📝 Page de destination (Page d'accueil mobile de l'application)
 
 ## 🧠 Objectif
-La page d'accueil, première vue de l'application mobile, met en avant les fonctionnalités principales de la plateforme e-cقommerce
+La page d'accueil, première vue de l'application mobile, met en avant les fonctionnalités principales de la plateforme e-commerce
 
 ## 🔍 Description :
 
@@ -333,6 +333,7 @@ Soumet les données utilisateur à l’API FakeStore :
 Il s'agit de l'écran principal de l'application mobile où l'on affiche tous les produits disponibles. L'utilisateur peut y explorer tous les articles, filtrer par catégorie ou effectuer une recherche par mot-clé.
 
 L'écran `ProductListScreen` intègre deux composants essentiels : SearchNavBar et CategoryList.
+
 ## 🧱 Composants inclus
 
 ### 🧩 Barre latérale (SearchNavBar)
@@ -493,3 +494,99 @@ return <ActivityIndicator style={{ marginTop: 50 }} size="large" color="#000" />
 }
 ```
 
+# 📝 Documentation de la Page Admin – (AddProductScreen)
+## 🧠 Objectif:
+Elle permet aux administrateurs d’ajouter de nouveaux produits au site. Elle dispose d’une interface conviviale avec un système de téléchargement d’image par glisser-déposer et des composants réutilisables.
+## 📌 Objectif :
+Pour permettre une navigation fluide entre la liste des produits, les détails, l'ajout de produit et les écrans d'authentification, nous avons mis en place une navigation par onglets (Bottom Tab Navigator) pour les pages principales, ainsi qu’un Stack Navigator pour la navigation globale (comme les détails produit ou les pages de connexion/inscription).
+
+### Étapes Suivies :
+#### 1. Mise en place d’un Bottom Tab Navigator
+Ce composant permet d’accéder facilement aux principales sections de l’application :
+- Liste des produits
+- Ajouter un produit
+- Connexion
+  
+```js
+<Tab.Screen name="Liste des produits" component={ProductListScreen} />
+<Tab.Screen name="Ajouter un produit" component={AddProductScreen} />
+<Tab.Screen name="Connexion" component={LoginScreen} />
+```
+#### 2. Création du composant MainScreen
+Ce composant est l’interface principale qui combine :
+- Une barre de recherche (SearchNavBar) en haut
+- Le BottomTabNavigator en dessous
+
+```js
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import SearchNavBar from './NavigationBar';
+import BottomTabNavigator from '../components/BottomTabNavigator';
+
+export default function MainScreen() {
+  return (
+    <View style={styles.container}>
+      <SearchNavBar />
+      <View style={styles.tabsContainer}>
+        <BottomTabNavigator />
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 30, // Espace pour le SafeArea
+  },
+  tabsContainer: {
+    flex: 1,
+  },
+});
+
+ ```
+#### 3. Configuration de la Navigation
+
+##### Mise en place du Stack Navigator dans App.js
+
+L'application est encapsulée avec :
+- `PaperProvider` - Pour le thème d'interface
+- `SafeAreaProvider` - Pour un affichage adapté à tous les appareils
+- `NavigationContainer` - Conteneur principal pour React Navigation
+
+##### Fonctionnalités du Stack Navigator
+- Gère l'interface principale (incluant les vues à onglets)
+- Prend en charge la navigation vers les écrans de Détail du Produit
+- Gère la navigation vers les écrans de Connexion/Inscription lorsque nécessaire
+
+```js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider as PaperProvider } from 'react-native-paper';
+
+import MainScreen from './components/MainScreen';
+import ProductDetailScreen from './screens/Product/ProductDetailScreen';
+import LoginScreen from './screens/login/LoginScreen';
+import SignupScreen from './screens/Signup/SignupScreen';
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <PaperProvider>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Main" component={MainScreen} />
+            <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </PaperProvider>
+  );
+}
+```
