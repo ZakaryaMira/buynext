@@ -6,8 +6,8 @@ export default async function ProductsPage({ searchParams  }) {
   const response = await fetch('https://fakestoreapi.com/products');
   let data = await response.json();
 
-  const search = searchParams?.search?.toLowerCase() || '';
-  const category = searchParams?.category;
+  const search = searchParams.search?.toLowerCase() || '';
+  const category = searchParams.category;
 
   const filterData = data.filter((product) => {
     const isCategoryMatch = category ? product.category.toLowerCase().includes(category.toLowerCase()) : true;

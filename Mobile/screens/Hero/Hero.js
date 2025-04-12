@@ -1,28 +1,43 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 const HeroScreen = () => {
   const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
-      {/* Floating Icons */}
-      <Image source={require('../../assets/clothing.png')} style={[styles.icon, styles.iconTopLeft]} />
-      <Image source={require('../../assets/driller.png')} style={[styles.icon, styles.iconTopRight]} />
-      <Image source={require('../../assets/game.png')} style={[styles.icon, styles.iconBottomLeft]} />
-      <Image source={require('../../assets/telephone.png')} style={[styles.icon, styles.iconBottomRight]} />
+    <KeyboardAvoidingView
+      style={{ flex: 1, justifyContent: 'center', alignItems: 'center'  }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <View style={styles.container}>
+        {/* Floating Icons */}
+        <Image source={require('../../assets/clothing.png')} style={[styles.icon, styles.iconTopLeft]} />
+        <Image source={require('../../assets/driller.png')} style={[styles.icon, styles.iconTopRight]} />
+        <Image source={require('../../assets/game.png')} style={[styles.icon, styles.iconBottomLeft]} />
+        <Image source={require('../../assets/telephone.png')} style={[styles.icon, styles.iconBottomRight]} />
 
-      {/* Title */}
-      <Text style={styles.title}>BuyNext</Text>
-      <Text style={styles.subtitle}>Votre prochain achat, à portée de clic</Text>
+        {/* Title */}
+        <Text style={styles.title}>BuyNext</Text>
+        <Text style={styles.subtitle}>Votre prochain achat, à portée de clic</Text>
 
-      {/* Button */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Découvrez les offres</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText}>Se connecter</Text>
-      </TouchableOpacity>
-    </View>
+        {/* Buttons */}
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Product')}>
+          <Text style={styles.buttonText}>Découvrez les offres</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.buttonText}>Se connecter</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

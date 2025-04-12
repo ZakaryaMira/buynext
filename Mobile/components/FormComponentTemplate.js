@@ -45,7 +45,6 @@ export default function FormComponentTemplate({ title, description, fields, onSu
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 220,
     padding: 20,
     borderRadius: 15,
     backgroundColor: '#fff',

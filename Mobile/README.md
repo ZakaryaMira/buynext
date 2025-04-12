@@ -37,9 +37,9 @@ npx expo install @react-navigation/native-stack
 # 📝 Page de destination (Page d'accueil mobile de l'application)
 
 ## 🧠 Objectif
-La page d'accueil, première vue de l'application mobile, met en avant les fonctionnalités principales de la plateforme e-commerce
+La page d'accueil, première vue de l'application mobile, met en avant les fonctionnalités principales de la plateforme e-cقommerce
 
-#### 🔍 Description :
+## 🔍 Description :
 
 Cette écran représente la section d'accueil de l'application mobile BuyNext, contenant :
 
@@ -327,3 +327,109 @@ Soumet les données utilisateur à l’API FakeStore :
 - Nom d'utilisateur
 - Email
 - Mot de passe
+
+# 📝 Page Produit (React Native - Écran de tous les produits)
+## 🧠 Objectif
+Il s'agit de l'écran principal de l'application mobile où l'on affiche tous les produits disponibles. L'utilisateur peut y explorer tous les articles, filtrer par catégorie ou effectuer une recherche par mot-clé.
+
+L'écran `ProductListScreen` intègre deux composants essentiels : SearchNavBar et CategoryList.
+## 🧱 Composants inclus
+
+### 🧩 Barre latérale (SearchNavBar)
+
+#### 🔍 Description
+Le composant SearchNavBar permet à l'utilisateur de saisir un mot-clé. Lors de la soumission, on redirige l'utilisateur vers ProductListScreen avec le terme de recherche en paramètre 
+
+#### 🔧 Comportement technique :
+
+- Le champ de texte est lié à un state.
+  
+```js
+  const [searchQuery, setSearchQuery] = useState('');
+```
+
+- Lors de l'appui sur "Rechercher", la navigation se fait avec :
+
+```js
+  const handleSearch = () => {
+    if (searchQuery.trim() !== '') {
+      navigation.navigate('Product', { query: searchQuery });
+    }
+  };
+```
+Ce mécanisme permet de filtrer les produits selon le titre saisi par l’utilisateur.
+
+### 🧩 Filtres par catégorie
+
+#### 🔍 Description
+Le composant CategoryList affiche une liste horizontale de boutons représentant chaque catégorie.
+-  Catégories définies dans categories.js :
+  
+```js
+const categories = [
+  "tous les produits",
+  "men's clothing",
+  "jewelery",
+  "electronics",
+  "women's clothing",
+];
+```
+- Lorsqu'un bouton est cliqué, on met à jour l'état selected Category, ce qui permet de filtrer les produits localement sans appel API.
+
+## ⚙️ Logique de filtrage combinée
+
+L’écran ProductListScreen utilise deux états pour le filtrage :
+
+- searchTerm (transmis via route.params.searchTerm)
+
+- selectedCategory (choisi localement dans CategoryList)
+
+Filtrage effectué via :
+
+```js
+const applyFilters = (allProducts) => {
+  let result = allProducts;
+
+  if (selectedCategory !== 'tous les produits') {
+    result = result.filter(item => item.category === selectedCategory);
+  }
+
+  if (query) {
+    result = result.filter(item =>
+      item.title.toLowerCase().includes(query)
+    );
+  }
+
+  setFiltered(result);
+};
+
+```
+```js
+  let result = allProducts;
+```
+- Commencez avec (allProducts) (le résultat contient désormais la liste complète).
+```js
+  if (selectedCategory !== 'tous les produits') {
+    result = result.filter(item => item.category === selectedCategory);
+  }
+```
+- Si la catégorie sélectionnée n'est PAS « tous les produits » :
+  - Filtrer la liste pour ne conserver que les produits correspondant à la catégorie sélectionnée.
+  - Si selectedCategory = « électronique », seuls les produits électroniques seront conservés.
+  
+  ```js
+  if (query) {
+  result = result.filter(item =>
+    item.title.toLowerCase().includes(query)
+  );
+  }
+  ```
+  - Si l'utilisateur a saisi quelque chose dans la barre de recherche (requête non vide) :
+    - It filters the list again to keep products whose title includes the search term (case-insensitive).
+    -Exemple : Si le titre est « Cool Shirt » et que la requête est « shirt », la correspondance sera établie.
+  
+  ```js
+  setFiltered(result);
+  ```
+  - Enregistrez le résultat filtré dans l'état filtré.
+

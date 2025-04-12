@@ -34,7 +34,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <>
+    <View style={styles.center}>
     <FormComponentTemplate
       title="Connexion"
       description="Connectez-vous pour accéder à votre compte"
@@ -54,7 +54,7 @@ export default function LoginScreen() {
         <Text style={styles.link} onPress={() => navigation.navigate('Signup')}>Vous n’avez pas de compte ? Créez-en un ici</Text>
       </TouchableOpacity>
     </View>
-    </>
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -73,6 +73,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
     marginTop: 20,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   
 });

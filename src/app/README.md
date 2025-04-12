@@ -361,61 +361,13 @@ return (
 
 
 
-#### 🧩 NavComponent – Navigation Globale avec Barre de Recherche
-
-La barre de navigation située en haut de la page contient :
-
-- **Logo de l'application** – _BuyNext_
-- **Barre de recherche** – pour rechercher un produit
-- **Lien "À propos"**
-- **Icône utilisateur** – au survol, un menu déroulant s'affiche avec :
-  - Connexion
-  - Créer un compte
-  - Ajouter un produit
-  - Liste des produits
-  - Déconnexion
-- **Icône du panier** – représentant les achats
-- 
-✨ Pied de page (Footer)
-Le footer du site contient des informations importantes et des liens rapides pour améliorer l’expérience utilisateur. Il est visible sur toutes les pages.
-
-📌 Sections incluses :
-
-**Logo & slogan**
-
-**Navigation** : Accueil, À propos, Contact
-
-**Compte** : Connexion, Inscription, Panier
-
-**Contact** : Email et téléphone
-
-✅ Inclus dans le layout global via RootLayout
-
-```jsx
-<NavComponent />
-{children}
-<Footer />
 
 
+# 📝 Page Produit (Page de tous les produits)
 
+## 🧠 Objectif
+Il s’agit de la page principale présentant l’ensemble des produits disponibles. Les utilisateurs peuvent y explorer tous les articles proposés. La page "ProductsPage" récupère les données depuis une fausse API et intègre deux composants : OurCategories et AllProducts.
 
-```
-
-##  🛍️ Page Produit
-
-Il s'agit de la page principale de la liste des produits, où les utilisateurs peuvent explorer tous les produits disponibles.
-
-### Structure :
-- **Barre latérale (Catégories)** : Affichée à gauche grâce au composant « OurCategories ». Permet le filtrage par catégorie.
-- **Grille de produits** : Extraite de « https://fakestoreapi.com/products » et affichée via le composant « AllProducts » dans une grille à 3 colonnes.
-
-### Composants :
-- « AllProducts.js » — Affichage des fiches produits individuelles
-- « OurCategories.js » — Barre latérale pour les filtres de catégories
-- « Categories.js »  — Définit la liste des catégories disponibles pour le filtrage des produits.
-
-
-La page des produits (ProductsPage) récupère les données depuis une fausse API et contient deux composants : OurCategories et AllProducts.
 ```js
 export default async function ProductsPage() {
   const response = await fetch('https://fakestoreapi.com/products');
@@ -428,11 +380,20 @@ export default async function ProductsPage() {
     ...
   );
 }
-
 ```
-**OurCategories**
-Fichier : OurCategories.js
-But : Affiche une liste de catégories statiques dans une barre latérale.
+
+## 🧱 Composants inclus
+
+### 🧩 Barre latérale (Catégories)
+
+#### 🔍 Description
+Affichée sur la gauche via le composant OurCategories, cette barre permet de filtrer les produits par catégorie.
+
+- « OurCategories.js » — Composant de la barre latérale dédié au filtrage par catégories.
+- « Categories.js »  — Contient la liste des catégories disponibles pour filtrer les produits.
+  
+##### **OurCategories**
+
 ``` js
 const OurCategories = () => {
   return (
@@ -448,77 +409,240 @@ const OurCategories = () => {
 };
 
 ```
-**Fonctionnalités :**
+- Utilise un tableau de catégories prédéfini depuis categories.js.
 
-Utilise un tableau de catégories prédéfini depuis categories.js.
+- Affiche chaque catégorie sous forme de bouton cliquable (fonctionnalité de filtrage à ajouter plus tard).
 
-Affiche chaque catégorie sous forme de bouton cliquable (fonctionnalité de filtrage à ajouter plus tard).
-
-Source des données :
+#### Source des données :
 
 ```js
 const categories = [
-  "tous les produits",
-  "Électronique",
-  "Bijoux",
-  "Mode Homme",
-  ...
-];
+    "tous les produits",
+    "men's clothing",
+    "jewelery",
+    "electronics",
+    "women's clothing",
+  ];
+  export default categories;
 ```
-**AllProducts**
-Fichier : AllProducts.jsx
-But : Affiche une carte individuelle pour chaque produit.
+### 🧩 Grille de produits :
+
+#### 🔍 Description
+Il s’agit de la section principale où tous les produits sont récupérés à partir de l’API et affichés à l’aide du composant :
+- « AllProducts.js » — Affichage des fiches produits individuelles
+
+#### **AllProducts**
 
 ```js
-const AllProducts = ({ product }) => {
+const AllProducts = ({product}) => {
   return (
-    <div>
-      <Image src={product.image} alt={product.title} />
-      <p>{product.title}</p>
-      <p>{product.price} da</p>
+    <div className='bg-white p-4 rounded shadow text-center hover:shadow-lg transition-shadow duration-200'>
+        <Image src={product.image} alt={product.title} width={200} height={200} className="mx-auto object-contain h-48"/>
+        <div>
+          <p className="mt-2 font-medium text-[#212121] heading-black mb-10">{product.title}</p>
+          <p className="mt-2 font-medium text-[#212121] heading-black mb-10">{product.category}</p>
+          <p className="text-sm text-[#212121] heading-extra-bold">{product.price} $</p>
+        </div>
     </div>
-  );
-};
+  )
+}
 ```
-**Fonctionnalités :**
+- Affiche l’image, le titre et le prix du produit.
 
-Affiche l’image, le titre et le prix du produit.
+- Utilise le composant Image de Next.js pour une gestion optimisée des images.
 
-Utilise le composant Image de Next.js pour une gestion optimisée des images.
+- Interface élégante avec effet au survol.
+  
 
-Interface élégante avec effet au survol.
-
-📥 Transmission des données via les props:
+### 📥 Transmission des données via les props:
 
 Le composant parent ProductsPage récupère les données depuis l’API FakeStore 
 (https://fakestoreapi.com/products) à l’aide d’un fetch. Une fois les données chargées, il les transmet au composant enfant AllProducts sous forme de props.
 
 Ensuite, dans AllProducts, ces données sont utilisées pour afficher l’image, le titre et le prix du produit selon la maquette définie.
 
-⚙️ Configuration de Next.js pour autoriser les images externes
+### ⚙️ Configuration de Next.js pour autoriser les images externes
 
 Par défaut, Next.js bloque les images provenant de domaines externes non autorisés pour des raisons de sécurité. Comme les images des produits de l'API FakeStore proviennent du domaine fakestoreapi.com, il est nécessaire d’ajouter ce domaine explicitement dans la configuration du projet.
 
-✅ Étapes à suivre :
-Ouvre le fichier next.config.js à la racine du projet.
+#### Étapes à suivre :
 
-Ajoute ou modifie la configuration comme suit :
+- Ouvre le fichier next.config.js à la racine du projet.
+
+- Ajoute ou modifie la configuration comme suit :
 
 ```js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    domains: ['fakestoreapi.com'], // Autorise les images provenant de ce domaine
-  },
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'fakestoreapi.com',
+            pathname: '/**',
+          },
+        ],
+      },
+      
 };
-
 export default nextConfig;
-
 ```
 🔐 Cette configuration permet à Next.js de charger et d’optimiser les images hébergées sur https://fakestoreapi.com.
 
+- Avant de détailler le filtrage côté page produit, il est important de comprendre comment le composant de navigation (NavComponent) intervient dans ce mécanisme.
+
+### 🧩 NavComponent – Navigation Globale avec Barre de Recherche
+
+#### 🔍 Description
+
+Le NavComponent, visible sur toutes les pages de l'application, inclut les éléments suivants :
+
+- **Logo de l'application**– affiche le nom de l'application :  _BuyNext_
+- **Barre de recherche** – rermet aux utilisateurs de rechercher des produits. Elle envoie le terme de recherche comme paramètre ?search=... dans l’URL.
+- **Lien "À propos"**- redirige vers la page de présentation
+- **Icône utilisateur** – un menu déroulant apparaît au survol, avec les options suivantes :
+  - Connexion
+  - Créer un compte
+  - Ajouter un produit
+  - Liste des produits
+  - Déconnexion
+- **Icône du panier** – redirige vers la page panier, affichant les achats de l'utilisateur.
+  
+🧠 Remarque : Ce composant fait partie du layout global et est affiché sur toutes les pages.
+
+### 🧩 Pied de page (Footer) – Navigation Globale avec Barre de Recherche
+Le Footer, également présent sur toutes les pages, fournit des liens rapides et des informations de contact.
+
+- **Logo & slogan**
+
+- **Navigation** : Accueil, À propos, Contact
+
+- **Compte** : Connexion, Inscription, Panier
+
+- **Contact** : Email et téléphone
+
+Comme le NavComponent, il est intégré dans le layout global via RootLayout.
+
+```jsx
+<NavComponent />
+{children}
+<Footer />
+```
+Cette structure garantit que la barre de navigation et le pied de page sont présents sur toutes les pages, assurant ainsi une expérience utilisateur cohérente.
+
+## 🧹Mécanisme de Recherche et de Filtrage
+
+### ⌨️ Filtrage via la barre de navigation:
+
+#### 🔍 description:
+Dans le composant NavComponent, l'utilisateur peut effectuer une recherche à l’aide de la barre de recherche située en haut de la page. Lorsqu’un terme est saisi puis validé, la page des produits s’ouvre avec une URL contenant le mot-clé de recherche.
+
+#### ⚙️ Fonctionnement technique.
+
+- Voici la fonction qui gère cette recherche :
+
+```js
+const handleSearch = (e) => {
+  e.preventDefault(); // prevents page reload
+
+  if (searchTerm.trim()) {
+    router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+    setSearchTerm('');
+  }
+};
+```
+- Empêche le formulaire de recharger la page (comportement par défaut des formulaires).
+- Vérifie si l'utilisateur a tapé quelque chose.
+- Si oui, il redirige l'utilisateur vers une nouvelle URL :
+- 
+Exemple :
+
+```bash
+/products?search=chaussures
+```
+- Le terme de recherche est ajouté à l'URL sous forme de chaîne de requête.
+- 
+- Ensuite, il efface le champ de saisie.
+- 
+- Le champ de recherche est lié à un state searchTerm.
+- 
+- Lors de la soumission du formulaire (fonction handleSearch), on redirige l’utilisateur vers la page /products, en incluant la valeur du champ dans les paramètres de l’URL (search).
+  
+- Dans la page ProductsPage, ce paramètre est récupéré via searchParams.search.
+
+```js
+const search = searchParams?.search?.toLowerCase() || '';
+```
+
+### 🗃️ Filtrage par catégorie:
+
+#### 🔍 description:
+Le composant OurCategories affiche une liste de catégories. Lorsqu’un utilisateur clique sur l’un des boutons de catégorie, la page /products est rechargée avec un paramètre category dans l’URL.
+
+```js
+/products?category=jewelery
+```
+
+#### ⚙️ Fonctionnement technique.
+La fonction handleCategoryClick utilise route.push() pour rediriger vers la même page avec le paramètre category.
+
+```js
+const handleCategoryClick = (category) => {
+  route.push(`/products?category=${category}`);
+};
+```
+- Dans la page ProductsPage, on récupère ce paramètre :
+
+```js
+const category = searchParams?.category;
+```
+Puis, dans la logique de filtrage :
+
+```js
+const isCategoryMatch = category
+  ? product.category.toLowerCase().includes(category.toLowerCase())
+  : true;
+```
+Ainsi, seuls les produits appartenant à cette catégorie sont conservés pour l’affichage.
+
+### Rendu conditionnel
+
+Si des produits correspondent aux filtres (recherche et/ou catégorie), ils sont affichés via le composant AllProducts.
+
+```js
+  const response = await fetch('https://fakestoreapi.com/products');
+  let data = await response.json();
+
+  const search = searchParams?.search?.toLowerCase() || '';
+  const category = searchParams?.category;
+
+  const filterData = data.filter((product) => {
+    const isCategoryMatch = category ? product.category.toLowerCase().includes(category.toLowerCase()) : true;
+    const isSearchMatch = product.title.toLowerCase().includes(search);
+    return isCategoryMatch && isSearchMatch;
+  });
+```
+La logique de filtrage combine à la fois la recherche par mot-clé et le filtre de catégorie. Si des produits correspondent aux deux critères (ou à l’un des deux s’ils sont utilisés seuls), ils sont conservés dans filterData.
+
+Sinon, la liste reste vide. Le tableau data est mis à jour uniquement s’il y a des correspondances :
+
+```js
+  if (filterData.length > 0) {
+    data = filterData;
+  }
+```
+### Exemple d'utilisation :
+
+- /products → affiche tous les produits.
+- products?category=electronics → affiche seulement les produits électroniques.
+- /products?search=casque → affiche les produits dont le titre contient "casque".
+- /products?search=montre&category=jewelery → filtre combiné : affiche uniquement les montres dans  la catégorie bijouterie.
+
+
+
 ## 🔍 voir la page de détails du produit ()
 Détail du produit est une page dynamique qui permet à l’utilisateur de consulter les détails d’un produit à partir de la page des produits.
+
 
 📁 Créer un fichier de route dynamique.
 Dans src/app/products/,  j'ai créé un dossier de route dynamique en utilisant des crochets :

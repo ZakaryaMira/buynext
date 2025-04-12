@@ -34,7 +34,7 @@ export default function SignupScreen() {
   };
 
   return (
-      <>
+      <View style={styles.center}>
       <FormComponentTemplate
       title="Créer un compte"
       description="Remplissez les champs pour vous inscrire"
@@ -52,7 +52,7 @@ export default function SignupScreen() {
           </TouchableOpacity>
         </View>
       <></>
-      </>
+      </View>
   );
 }
 const styles = StyleSheet.create({
@@ -63,5 +63,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#007AFF', 
     textDecorationLine: 'underline', 
-  }
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
