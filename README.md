@@ -1,4 +1,4 @@
-# BUYNEXT Project, 🛒 Weasydoo Store – Test Technique Frontend
+# 🛒 BUYNEXT Project, Weasydoo Store – Test Technique Frontend
 
 Ce projet est une application e-commerce développée avec **Next.js** et **React Native**, utilisant l’API [FakeStoreAPI](https://fakestoreapi.com/).  
 Il a été réalisé dans le cadre d’un **test technique pour l’entreprise Weasydoo**, visant à démontrer mes compétences en développement frontend moderne, notamment :

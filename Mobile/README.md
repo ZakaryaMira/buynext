@@ -433,3 +433,63 @@ const applyFilters = (allProducts) => {
   ```
   - Enregistrez le résultat filtré dans l'état filtré.
 
+# 📝 Product Detail Page (React Native - `ProductDetailScreen`)
+
+## 🧠 Purpose
+
+Display the complete details of a selected product.
+This page provides an individual view of an item, with its image, title, category, description, price, and two action buttons: **Buy Now** or **Add to Cart**.
+
+---
+
+## 🔗 Page Access
+
+This page is accessible from the **product list**. When a user selects a product, its `id` is passed via the navigation:
+
+```js
+navigation.navigate('ProductDetail', { productId: item.id });
+```
+
+---
+
+## 🧱 Key Behaviors
+
+### 🆔 Retrieving the product ID via navigation
+
+The `productId` is passed via `route.params`:
+
+```js
+const { productId } = route.params;
+```
+
+### 🌐 API call to retrieve product details
+
+The ID is used to make an HTTP request to `https://fakestoreapi.com/products/{productId}` when mounting the component:
+
+```js
+useEffect(() => {
+fetch(`https://fakestoreapi.com/products/${productId}`)
+.then(res => res.json())
+.then(json => setProduct(json))
+.catch(err => console.error(err));
+}, []);
+```
+
+### 💾 Managing local product state
+
+The product is stored locally using `useState`:
+
+```js
+const [product, setProduct] = useState(null);
+```
+
+### ⏳ Loading Management
+
+As long as the data isn't loaded, an `ActivityIndicator` is displayed:
+
+```js
+if (!product) {
+return <ActivityIndicator style={{ marginTop: 50 }} size="large" color="#000" />;
+}
+```
+

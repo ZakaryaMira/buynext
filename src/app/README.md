@@ -554,20 +554,16 @@ const handleSearch = (e) => {
 - Empêche le formulaire de recharger la page (comportement par défaut des formulaires).
 - Vérifie si l'utilisateur a tapé quelque chose.
 - Si oui, il redirige l'utilisateur vers une nouvelle URL :
-- 
+  
 Exemple :
 
 ```bash
 /products?search=chaussures
 ```
 - Le terme de recherche est ajouté à l'URL sous forme de chaîne de requête.
-- 
 - Ensuite, il efface le champ de saisie.
-- 
 - Le champ de recherche est lié à un state searchTerm.
-- 
 - Lors de la soumission du formulaire (fonction handleSearch), on redirige l’utilisateur vers la page /products, en incluant la valeur du champ dans les paramètres de l’URL (search).
-  
 - Dans la page ProductsPage, ce paramètre est récupéré via searchParams.search.
 
 ```js
@@ -640,21 +636,25 @@ Sinon, la liste reste vide. Le tableau data est mis à jour uniquement s’il y 
 
 
 
-## 🔍 voir la page de détails du produit ()
-Détail du produit est une page dynamique qui permet à l’utilisateur de consulter les détails d’un produit à partir de la page des produits.
+# 📝 # 📝 Page de détails du produit (`/products/[id]`)
 
+## 🧠 Objectif
+Display detailed information for a selected product from the product list.
 
-📁 Créer un fichier de route dynamique.
+## 🔍 Description :
+Cette page dynamique permet à l’utilisateur de consulter les détails d’un produit en cliquant sur celui-ci depuis la page de la liste des produits.
+
+## 📁 Créer un fichier de route dynamique.
 Dans src/app/products/,  j'ai créé un dossier de route dynamique en utilisant des crochets :
-Le [id] est un segment dynamique. Quand tu accèdes à /products/1, Next.js comprend qu’il faut charger ce fichier et traite 1 comme l’identifiant du produit.
-
-📄 Construire la page dynamique `page.js`
+Le [id] est un segment dynamique. Lorsqu’on accède à /products/1, Next.js comprend qu’il doit charger ce fichier et traite 1 comme l’identifiant dynamique du produit.
 
 Ce fichier :
-
 - Récupère les paramètres (`params`) depuis l’URL
 - Fait une requête vers l’API externe pour obtenir les données du produit
 - Transmet ces données au composant `ProductDetails`
+
+## 📥 Récupération des données produit
+Le fichier `[id]/page.js` utilise Server-Side Rendering (SSR) pour récupérer les données depuis l’API externe avant de rendre la page.
 
 ```js
 import React from 'react'
@@ -679,8 +679,8 @@ Cette page utilise le rendu côté serveur (Server-Side Rendering) en déclarant
 
 Le fichier est nommé [id]/page.js dans le dossier app/products, ce qui indique à Next.js qu’il s’agit d’une route dynamique. Le paramètre id est automatiquement extrait de l’URL et passé au composant via l'objet params.
 
-📦 Données passées au composant
-Les données du produit sont ensuite passées au composant ProductDetails via la prop product. Ce composant est responsable de l'affichage des détails visuels du produit (image, titre, description, prix, etc.).
+## 📦 Données passées au composant
+Ce composant reçoit les données du produit via la prop product et affiche tous les éléments visuels nécessaires : image, titre, prix, description et boutons d’action.
 
 ```js
 import React from 'react'
@@ -706,7 +706,48 @@ const ProductDetails = ({product}) => {
 
 export default ProductDetails
 ```
+## 🧲 Interaction : Composant AllProducts
+Avant d’arriver sur la page de détails, l’utilisateur consulte la liste de produits. Chaque carte produit est cliquable et redirige vers la page dynamique grâce au composant AllProducts.
 
+```js
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+
+const AllProducts = ({ product }) => {
+  return (
+    <Link href={`/products/${product.id}`}>
+      <div className='bg-white p-4 rounded shadow text-center hover:shadow-lg transition-shadow duration-200'>
+        <Image
+          src={product.image}
+          alt={product.title}
+          width={200}
+          height={200}
+          className="mx-auto object-contain h-48"
+        />
+        <div>
+          <p className="mt-2 font-medium text-[#212121] heading-black mb-10">{product.title}</p>
+          <p className="mt-2 font-medium text-[#212121] heading-black mb-10">{product.category}</p>
+          <p className="text-sm text-[#212121] heading-extra-bold">{product.price} $</p>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
+export default AllProducts
+```
+
+## 🔄 Flux global
+
+```bash
+AllProducts (liste des produits)
+    ⬇️ click (Link vers /products/[id])
+Dossier [id] → page.js
+    ⬇️ récupération des données via fetch
+Transmission à ProductDetails
+    ⬇️ affichage des détails produit
+```
 ## 🧾 page admin 
 
 🧠 Objectif:
