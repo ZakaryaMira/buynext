@@ -7,7 +7,7 @@ import LoginScreen from '../screens/login/LoginScreen';
 import SignupScreen from '../screens/Signup/SignupScreen';
 import ProductListScreen from '../screens/Product/ProductListScreen';
 import AddProductScreen from '../screens/Product/AddProductScreen';
-
+import InventoryScreen from '../screens/Inventory/InventoryScreen';
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -44,6 +44,9 @@ export default function BottomTabNavigator() {
             case 'Liste des produits':
               iconName = 'list-outline';
               break;
+              case 'Gérer l\'inventaire':
+              iconName = 'settings-outline'; // Or something like 'construct-outline'
+              break;
             case 'Déconnexion':
               iconName = 'log-out-outline';
               break;
@@ -60,6 +63,8 @@ export default function BottomTabNavigator() {
     >
       <Tab.Screen name="Liste des produits" component={ProductListScreen} />
       <Tab.Screen name="Ajouter un produit" component={AddProductScreen} />
+      <Tab.Screen name="Gérer l'inventaire" component={InventoryScreen} />
+
       
       {/* Conditionally render Connexion or Déconnexion based on authentication */}
       {!isAuthenticated ? (

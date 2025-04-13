@@ -685,3 +685,130 @@ Le système est pensé pour offrir une expérience fluide :
 - Les utilisateurs voient clairement s’ils sont connectés ou non
 - La navigation change dynamiquement
 - Les droits sont respectés sans forcer une redirection
+
+# 📦 Gérer l’Inventaire – Documentation
+
+## 🧭 Vue d’ensemble
+
+La **page d’inventaire** est un écran React Native permettant à l’utilisateur authentifié de :
+
+- 📥 Récupérer la liste de tous les produits depuis l’API [Fake Store](https://fakestoreapi.com/)
+- 🗑️ Supprimer un produit
+- ✏️ Modifier un produit (via une redirection vers `EditProductScreen`)
+
+> ✅ L’accès à cet écran est **protégé** grâce au hook `useAuth` qui vérifie la présence du token dans `SecureStore`.
+
+---
+
+## 🔐 Authentification
+
+L’accès à la page est restreint à l’aide d’un hook personnalisé `useAuth`.
+
+```js
+// hooks/useAuth.js
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
+
+export default function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await SecureStore.getItemAsync('userToken');
+      setIsAuthenticated(!!token);
+    };
+
+    checkToken();
+  }, []);
+
+  return isAuthenticated;
+}
+```
+
+Dans `InventoryScreen`, ce hook est utilisé pour afficher un écran de chargement ou interdire l’accès si l’utilisateur n’est pas authentifié :
+
+```js
+const isAuthenticated = useAuth();
+
+if (isAuthenticated === null) return <Text>Chargement...</Text>;
+if (!isAuthenticated) return <Text>Non autorisé</Text>;
+```
+
+---
+
+## 📥 Récupération des produits
+
+Les produits sont récupérés à chaque fois que l’écran devient actif (grâce à `navigation.addListener('focus', ...)`) :
+
+```js
+const fetchProducts = async () => {
+  const res = await fetch('https://fakestoreapi.com/products');
+  const data = await res.json();
+  setProducts(data);
+};
+
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', fetchProducts);
+  return unsubscribe;
+}, [navigation]);
+```
+
+---
+
+## 🗑️ Suppression d’un produit
+
+Chaque carte produit contient un bouton **"Supprimer"**. Lorsqu’il est cliqué :
+
+1. Une boîte de confirmation s’affiche.
+2. Si l’utilisateur confirme, une requête `DELETE` est envoyée.
+
+```js
+const deleteProduct = async (id) => {
+  await fetch(`https://fakestoreapi.com/products/${id}`, { method: 'DELETE' });
+  setProducts((prev) => prev.filter((p) => p.id !== id));
+  Alert.alert('Supprimé', 'Produit supprimé avec succès');
+};
+```
+
+---
+
+## ✏️ Modification d’un produit
+
+Le bouton **"Modifier"** redirige vers l’écran `EditProductScreen` en passant l’ID du produit :
+
+```js
+onPress={() => navigation.navigate('EditProduct', { id: item.id })}
+```
+
+L’écran d’édition se charge de :
+- récupérer les détails du produit
+- préremplir le formulaire
+- envoyer la requête `PUT` pour mettre à jour le produit
+
+---
+
+## 🧱 Composants UI
+
+Chaque produit est affiché dans une carte :
+
+```js
+<View style={styles.card}>
+  <Text style={styles.title}>{item.title}</Text>
+  <Text>Prix: ${item.price}</Text>
+  ...
+</View>
+```
+
+Avec deux boutons : **Modifier** et **Supprimer**, disposés côte à côte via `flexDirection: 'row'`.
+
+---
+
+## ✅ Fonctionnalités couvertes
+
+- ✅ Authentification via SecureStore
+- ✅ Affichage des produits en liste
+- ✅ Suppression avec confirmation
+- ✅ Redirection vers formulaire de modification
+- ✅ Rafraîchissement automatique à l’ouverture de la page
+
+---

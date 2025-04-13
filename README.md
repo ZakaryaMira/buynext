@@ -29,9 +29,30 @@ Il a été réalisé dans le cadre d’un **test technique pour l’entreprise W
 - `Créer un compte (signup)` – Formulaire d’inscription
 - `page produit (products)` – Affichage de tous les produits
 - `Acheter un produit ()` – Détail d’un produit sélectionné
-- `Ajouter un produi (admin)` – Formulaire pour publier un nouveau produit
+- `Ajouter un produit (admin)` – Formulaire pour publier un nouveau produit
 - `Liste de mes produits (inventory)` – Tous les produits ajoutés par l’utilisateur connecté
 - `Modifier un produit ` – Modification des produits existants
+- 
+## 🔐 Processus de Connexion
+
+Les pages (dans **Next.js**) ou les écrans (dans **React Native**) comme :
+
+- **Ajouter un produit** 
+- **Liste de mes produits (inventory)** 
+- **Modifier un produit** 
+
+sont des **routes protégées** — elles **ne peuvent pas être accessibles sans connexion**.
+
+### ✅ Identifiants de Connexion
+
+Pour se connecter, utilisez les identifiants de test suivants :
+
+```json
+{
+  "username": "mor_2314",
+  "password": "83r5^_"
+}
+```
 
 ## 📝 Documentation
 - [`src/app/README.md`](./src/app/README.md) : Documentation détaillée de l'application Next.js

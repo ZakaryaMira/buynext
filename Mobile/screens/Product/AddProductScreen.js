@@ -80,9 +80,8 @@ export default function AddProductScreen() {
   if (!isAuthenticated) {
     return (
       <View style={styles.centered}>
-        <Text style={{ fontSize: 16, fontWeight: '600', color: '#EF233C' }}>
-          ⛔ Accèss refusé. Veuillez vous connecter pour ajouter un produit.
-        </Text>
+        <Text style={{ fontSize: 16, fontWeight: '600', color: '#EF233C' }}>⛔ Accèss refusé.</Text>
+        <Text style={{ fontSize: 16, fontWeight: '600', color: '#EF233C' }}>. Veuillez vous connecter pour ajouter un produit..</Text>
       </View>
     );
   }

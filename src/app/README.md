@@ -892,13 +892,10 @@ const handleSubmit = async (formData) => {
   };
 ```
 # 📦 la Page d'Inventaire (Inventory)
-
+## 🧠 Objectif:
 La page d'inventaire permet aux utilisateurs de voir, rechercher, modifier et supprimer des produits. Les données sont récupérées depuis l'API Fake Store et affichées dans une grille responsive.
 
-🧠 Objectif:
-La page d'inventaire permet aux utilisateurs de voir, rechercher, modifier et supprimer des produits. Les données sont récupérées depuis l'API Fake Store et affichées dans une grille responsive.
-
-📄 InventoryPage (Page principale):
+## 📄 InventoryPage (Page principale):
 
 Dans la page principale InventoryPage (page.jsx), on utilise useEffect pour récupérer les produits :
 
@@ -912,7 +909,7 @@ useEffect(() => {
 ```
 Les produits récupérés sont ensuite transmis au composant enfant InventoryProduct.
 
-🧹 2. Supprimer un Produit
+## 🧹 2. Supprimer un Produit
 
 Un bouton de suppression dans le composant InventoryProduct appelle cette fonction :
 
@@ -933,7 +930,7 @@ Il supprime un produit de la liste des produits de l'état, en particulier le pr
 ```js
 setProducts(prev => prev.filter(product => product.id !== productId));
 ```
-✏️ 3. Modifier un Produit
+## ✏️ 3. Modifier un Produit
 
 Lors d’un clic sur le bouton "Modifier" :
 
@@ -944,37 +941,36 @@ const handleEditClick = () => {
 ```
 Cela redirige vers une route dynamique /inventory/[id] qui charge le produit par son ID pour le modifier.
 
-🧩 Détail des Composants
+## 🧩 Détail des Composants
 
-🖼️ InventoryHeading
+### 🖼️ InventoryHeading
 Affiche le titre et le sous-titre de la page avec une icône SVG
 
-🔍 InventorySearch
+### 🔍 InventorySearch
 Contient :
 
-Un champ de recherche
+- Un champ de recherche
 
-Un menu déroulant de catégorie
+- Un menu déroulant de catégorie
 
-Un bouton Ajouter un produit (à implémenter)
+- Un bouton Ajouter un produit (à implémenter)
 
-📦 InventoryProduct
+### 📦 InventoryProduct
 
-Affiche un produit avec :
+- Affiche un produit avec :
 
-Image, titre, catégorie et prix
+- Image, titre, catégorie et prix
 
-Bouton Modifier → redirige vers la page de modification
+- Bouton Modifier → redirige vers la page de modification
 
-Bouton Supprimer → supprime le produit
+- Bouton Supprimer → supprime le produit
 
-```js
-```
-✏️ Page de Modification de Produit
+
+## ✏️ Page de Modification de Produit
 
 Située dans /inventory/[id]/page.jsx
 
-🚚 Récupérer un Produit Spécifique
+## 🚚 Récupérer un Produit Spécifique
 
 ```js
 useEffect(() => {
@@ -992,16 +988,16 @@ useEffect(() => {
     });
 }, [id]);
 ```
-🧾 Composant InventoryForm
+## 🧾 Composant InventoryForm
 Formulaire réutilisable composé de :
 
-ProductInputField
+- ProductInputField
 
-ProductTextArea
+- ProductTextArea
 
-ProductSelectInput
+- ProductSelectInput
 
-ProductImageUploader
+- ProductImageUploader
 
 ```js
 const handleSubmit = async (formData) => {
@@ -1018,195 +1014,17 @@ const handleSubmit = async (formData) => {
 };
 
 ```
-🔍 Mécanisme de recherche des produits
-Nous avons mis en place une fonctionnalité de recherche dynamique accessible depuis la barre de navigation présente sur toutes les pages.
+## 🔐 Autorisation
 
-⚙️ Fonctionnement :
-Saisie de la recherche :
-L'utilisateur entre un mot-clé dans la barre de recherche située dans le composant NavComponent.
-
-Soumission :
-Lorsqu’il soumet le formulaire (avec "Entrée" ou clic sur l’icône de recherche), l’utilisateur est redirigé vers /products avec le mot-clé passé en tant que paramètre de recherche dans l'URL :
-
-```js
-/products?search=mot-clé
-```
-Filtrage des données :
-Sur la page ProductsPage, les produits sont récupérés depuis l’API.
-Si un paramètre de recherche est présent :
-
-les produits sont filtrés en local (côté serveur)
-
-le filtrage est insensible à la casse (toLowerCase())
-
-Affichage :
-Seuls les produits correspondant au mot-clé sont affichés à l'utilisateur.
-
-🧪 Exemple d'utilisation :
-Si l’utilisateur recherche sac, il sera redirigé vers :
-
-```js
-/products?search=sac
-```
-La page affichera alors uniquement les produits dont le titre contient le mot "sac".
-
-🔗 Imports
-
-```js
-import React, { useState, useEffect } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation';
-
-import Logo from '../app/SVG/Logo.svg'
-import SearchSvg from '../app/SVG/SearchSvg.svg'
-import BuySvg from '../app/SVG/BuySvg.svg'
-import UserSvg from '../app/SVG/UserSvg.svg'
-
-```
-useState, useEffect : Hooks React pour gérer l’état et les effets secondaires.
-
-useRouter : Hook fourni par Next.js pour naviguer entre les pages par code.
-
-Image : Composant Next.js optimisé pour les images.
-
-Link : Composant pour naviguer entre les pages sans recharger la page.
-
-Les SVGs sont utilisés comme icônes (logo, utilisateur, panier, recherche).
-
-🔍 États internes du composant:
-
-```js
-const [isDropDown, setIsDropDown] = useState(false); // Affichage du menu utilisateur
-const [isClient, setIsClient] = useState(false);     // Pour vérifier si on est bien côté client
-const [searchTerm, setSearchTerm] = useState('');    // Texte saisi dans la barre de recherche
-```
-🎯 useEffect – Exécuté après le premier rendu:
+La page vérifie si l’utilisateur est connecté grâce à un token dans le `localStorage` :
 ```js
 useEffect(() => {
-  setIsClient(true);
+  const token = localStorage.getItem('token');
+  setHasToken(!!token); 
 }, []);
-
 ```
-Ce useEffect s’exécute une seule fois, au montage du composant, et sert à activer certains éléments uniquement côté client, comme le menu déroulant.
+Si le token est absent :
+- Un message d'accès refusé s'affiche.
+- L’utilisateur ne peut ni accéder à la liste des produits ni ajouter/modifier/supprimer.
 
-🔎 Fonction de recherche
-
-```jsx
-const handleSearch = (e) => {
-  e.preventDefault(); // Empêche le rechargement du formulaire
-  if (searchTerm.trim()) {
-    router.push(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
-    setSearchTerm('');
-  }
-};
-```
-Lors de la soumission du formulaire :
-
-Vérifie que le champ n’est pas vide.
-
-Encode le texte saisi dans l’URL.
-
-Redirige vers /products?search=motcle.
-
-Réinitialise le champ de recherche après soumission.
-
-```js
-<form onSubmit={handleSearch}>
-  <input type="text" value={searchTerm} onChange={...} />
-  <button type="submit"><Image src={SearchSvg} /></button>
-</form>
-
-```
-Le champ est lié à searchTerm pour suivre la saisie de l’utilisateur.
-
-Le bouton de soumission contient une icône de recherche
-
-🛍️ ProductsPage.jsx – Affichage des Produits avec Filtrage
-
-🔄 Récupération des données + filtrage
-
-```js
-const response = await fetch('https://fakestoreapi.com/products');
-let data = await response.json();
-```
-Cette partie récupère tous les produits depuis l’API externe.
-
-```js
-const search = searchParams?.search?.toLowerCase() || '';
-const filterData = data.filter((product) =>
-  product.title.toLowerCase().includes(search)
-);
-```
-On récupère le mot-clé dans les paramètres de l’URL (searchParams).
-
-On filtre les produits dont le titre contient ce mot-clé (sans tenir compte des majuscules/minuscules).
-
-```js
-if (filterData.length > 0) {
-  data = filterData;
-}
-```
-Si des produits correspondent au filtre, on remplace data par les résultats filtrés.
-
-🎨 Affichage des produits
-```jsx
-<h1>Nos Produits</h1>
-<p>Découvrez notre sélection...</p>
-
-<div className="flex">
-  <div><OurCategories /></div>  // Catégories à gauche
-  <main>
-    {data.map(product => (
-      <AllProducts key={product.id} product={product} />
-    ))}
-  </main>
-</div>
-
-```
-Affiche les produits filtrés sous forme de grille.
-
-AllProducts est un composant qui affiche un produit.
-
-OurCategories permet probablement de filtrer par catégorie (non encore lié à la recherche).
-
-🔎 Mettre en œuvre le filtrage par catégories
-Mettez à jour le composant « NosCatégories » afin que, lorsqu'un utilisateur clique sur une catégorie, le paramètre de requête dans l'URL soit mis à jour. Cela permettra à la page Produits de recevoir la catégorie sélectionnée et de filtrer les produits en conséquence.
-
-```js
-  const router = useRouter(); // Permettez au routeur de naviguer par programmation.
-  
-  const handleCategoryClick = (category) => {
-    router.push(`/products?category=${category}`); // Rediriger vers la page des produits contenant la catégorie sélectionnée
-  };
-
-```
-Changements clés pour le filtrage par catégorie et recherche
-Ajout du filtrage par catégorie :
-
-Nous avons ajouté la possibilité de filtrer par catégorie en plus de la recherche par titre.
-
-La catégorie est récupérée via searchParams?.category.
-```js
-  // Get category and search query from the searchParams
-  const category = searchParams?.category;
-```
-Modification de la logique de filtrage :
-
-Nous avons combiné deux conditions de filtrage : par titre et par catégorie.
-
-Si une catégorie est sélectionnée, nous filtrons les produits en fonction de cette catégorie et de leur titre. Si aucune catégorie n'est sélectionnée, tous les produits sont inclus.
-```js
-  // Filter products based on category and search query
-  const filterData = data.filter((product) => {
-    const isCategoryMatch = category ? product.category.toLowerCase().includes(category.toLowerCase()) : true;
-    const isSearchMatch = product.title.toLowerCase().includes(search);
-    return isCategoryMatch && isSearchMatch;
-  });
-```
-Filtrage combiné :
-```js
-return isCategoryMatch && isSearchMatch;
-```
-
- Les utilisateurs peuvent maintenant affiner leur recherche en fonction de la catégorie et du titre.
+---

@@ -36,23 +36,30 @@ export default function ProductDetailScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    padding: 16,
+    backgroundColor: '#fff',
+  },
   container: {
     flex: 1,
-    paddingTop: 100,
-    padding: 10,
-    backgroundColor: '#fff',
+    alignItems: 'center',
     borderColor: '#212121',
-    borderWidth: 1
-    
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
+    backgroundColor: '#fff',
   },
   image: {
-    height: 200,
+    width: '100%',
+    height: 250,
     resizeMode: 'contain',
     marginBottom: 16,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 22,
     marginBottom: 8,
     textAlign: 'center',
     color: '#212121',
@@ -66,38 +73,40 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
-    color: '#FFC107',
+    color: '#212121',
     marginBottom: 16,
     textAlign: 'center',
-    color: '#212121',
   },
   description: {
     fontSize: 16,
     color: '#333',
     textAlign: 'center',
+    marginBottom: 20,
   },
   addButton: {
-    marginTop: 16,
+    marginTop: 10,
     backgroundColor: '#FAFAFA',
     padding: 12,
     borderRadius: 8,
-    color: '#fff',
+    width: '100%',
     borderColor: '#212121',
-    borderWidth: 4
+    borderWidth: 2,
   },
   buyButton: {
     marginTop: 16,
     backgroundColor: '#212121',
     padding: 12,
     borderRadius: 8,
-    color: '#fff',
+    width: '100%',
   },
   buyButtonText: {
     color: '#fff',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   addButtonText: {
     color: '#212121',
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
