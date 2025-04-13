@@ -23,7 +23,11 @@ export default function LoginScreen() {
       if(data.token) {
         await SecureStore.setItemAsync('userToken', data.token);
         Alert.alert("Bienvenue !", "Connexion réussie ");
-        /* navigation.navigate('Products'); */
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Main' }],
+        });
+         
       }else {
         setError("Nom d'utilisateur ou mot de passe incorrect.");
       }

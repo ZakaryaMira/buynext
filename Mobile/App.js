@@ -8,6 +8,8 @@ import MainScreen from './components/MainScreen';
 import ProductDetailScreen from './screens/Product/ProductDetailScreen';
 import LoginScreen from './screens/login/LoginScreen';
 import SignupScreen from './screens/Signup/SignupScreen';
+import ProductListScreen from './screens/Product/ProductListScreen'; // make sure path is correct
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -20,6 +22,7 @@ export default function App() {
             <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="ProductList" component={ProductListScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

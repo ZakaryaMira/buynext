@@ -9,7 +9,7 @@ export default function SearchNavBar() {
 
   const handleSearch = () => {
     if (searchQuery.trim() !== '') {
-      navigation.navigate('Product', { query: searchQuery });
+      navigation.navigate('ProductList', { query: searchQuery });
     }
   };
 

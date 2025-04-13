@@ -495,9 +495,10 @@ return <ActivityIndicator style={{ marginTop: 50 }} size="large" color="#000" />
 ```
 
 # 📝 Documentation de la Page Admin – (AddProductScreen)
+
 ## 🧠 Objectif:
 Elle permet aux administrateurs d’ajouter de nouveaux produits au site. Elle dispose d’une interface conviviale avec un système de téléchargement d’image par glisser-déposer et des composants réutilisables.
-## 📌 Objectif :
+
 Pour permettre une navigation fluide entre la liste des produits, les détails, l'ajout de produit et les écrans d'authentification, nous avons mis en place une navigation par onglets (Bottom Tab Navigator) pour les pages principales, ainsi qu’un Stack Navigator pour la navigation globale (comme les détails produit ou les pages de connexion/inscription).
 
 ### Étapes Suivies :
@@ -590,3 +591,97 @@ export default function App() {
   );
 }
 ```
+## 🧠 Fonctionnalités
+
+- 📋 Formulaire avec champs :
+  - Titre du produit
+  - Prix (numérique)
+  - Catégorie (via un menu déroulant)
+  - Description (multiligne)
+  - Image (depuis la galerie)
+-  Sélection d’image via Expo Image Picker
+-  Validation de base des champs
+-  Envoi d’une requête `POST` vers FakeStore API
+-  Alertes de succès ou d’échec
+-  
+---
+
+## 📦 Dépendances
+
+- **Composants React Native de base**
+- [`expo-image-picker`](https://docs.expo.dev/versions/latest/sdk/imagepicker/)
+- [`@react-native-picker/picker`](https://github.com/react-native-picker/picker)
+
+---
+
+## 🔐 Sécurité et Accès Restreint à la Page d’Ajout de Produit:
+
+### 🧠 Pourquoi ?
+Tous les utilisateurs ne doivent pas avoir la possibilité d’ajouter des produits au site. Seuls les utilisateurs authentifiés (idéalement les administrateurs) peuvent accéder à l'écran "Ajouter un produit". L'accès est contrôlé à l'aide d'un système d'authentification basé sur un token sécurisé
+
+### 🔍 Vérification d'authentification avec SecureStore
+Nous avons créé un hook personnalisé useAuth qui vérifie la présence d’un token d’utilisateur stocké dans SecureStore. Ce token est enregistré lors de la connexion et supprimé à la déconnexion. S’il n’existe pas, cela signifie que l’utilisateur n’est pas connecté
+
+```js
+// hooks/useAuth.js
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
+
+export default function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await SecureStore.getItemAsync('userToken');
+      setIsAuthenticated(!!token);
+    };
+
+    checkToken();
+  }, []);
+
+  return isAuthenticated;
+}
+```
+### 🧭 Intégration dans la Navigation (BottomTabNavigator):
+Dans le BottomTabNavigator, on vérifie également l'état d'authentification.
+Cela nous permet d’afficher dynamiquement :
+- Le bouton "Connexion" pour les utilisateurs non connectés
+- Le bouton "Déconnexion" pour les utilisateurs authentifiés (qui supprime le token)
+
+```js
+{!isAuthenticated ? (
+  <Tab.Screen name="Connexion" component={LoginScreen} />
+) : (
+  <Tab.Screen
+    name="Déconnexion"
+    component={() => <LoginScreen />}
+    listeners={{
+      tabPress: (e) => {
+        e.preventDefault();
+        handleLogout(); // Suppression du token
+      },
+    }}
+  />
+)}
+```
+### Protection de la Page AddProductScreen:
+Le composant AddProductScreen utilise le hook useAuth pour vérifier si l'utilisateur est authentifié avant d’afficher le formulaire.
+S’il n’est pas connecté, un message d’erreur personnalisé s’affiche :
+
+```js
+if (!isAuthenticated) {
+  return (
+    <View style={styles.centered}>
+      <Text style={{ fontSize: 16, fontWeight: '600', color: '#EF233C' }}>
+        ⛔ Accèss refusé. Veuillez vous connecter pour ajouter un produit.
+      </Text>
+    </View>
+  );
+}
+```
+### 💡 UX Améliorée
+Le système est pensé pour offrir une expérience fluide :
+
+- Les utilisateurs voient clairement s’ils sont connectés ou non
+- La navigation change dynamiquement
+- Les droits sont respectés sans forcer une redirection

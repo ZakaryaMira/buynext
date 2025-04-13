@@ -3,6 +3,7 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ActivityIndi
 
 
 import CategoryFilter from '../../screens/Product/Components/CategoryFilter'; // Adjust the path
+import SearchNavBar from '../../components/NavigationBar';
 
 export default function ProductListScreen({ route, navigation }) {
   const [products, setProducts] = useState([]);
@@ -52,6 +53,7 @@ export default function ProductListScreen({ route, navigation }) {
         <ActivityIndicator style={{ marginTop: 50 }} size="large" color="#000" />
       ) : (
         <>
+        
           <CategoryFilter
             selectedCategory={selectedCategory}
             onSelectCategory={handleCategorySelect}

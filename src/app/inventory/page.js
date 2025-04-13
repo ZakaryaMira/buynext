@@ -33,7 +33,6 @@ export default function InventoryPage() {
   return (
     <section className="p-6 bg-[#FAFAFA] min-h-screen">
       <InventoryHeading />
-      <InventorySearch />
      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
         {products.map((product) => (
           <InventoryProduct key={product.id} product={product} onDelete={handleDelete} />
