@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { useRouter } from 'next/navigation'; // ✅ Import router
+import { useRouter } from 'next/navigation'; // 
 
 const InventoryProduct = ({ product, onDelete }) => {
     const router = useRouter(); 

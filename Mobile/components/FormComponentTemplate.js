@@ -38,7 +38,7 @@ export default function FormComponentTemplate({ title, description, fields, onSu
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
-      <Button title={button} onPress={handleSubmit} color="#FFC107" />
+      <Button title={button} onPress={handleSubmit} color="#FFC107" testID="form-submit-button" />
     </View>
   );
 }

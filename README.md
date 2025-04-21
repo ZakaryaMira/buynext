@@ -32,7 +32,7 @@ Il a été réalisé dans le cadre d’un **test technique pour l’entreprise W
 - `Ajouter un produit (admin)` – Formulaire pour publier un nouveau produit
 - `Liste de mes produits (inventory)` – Tous les produits ajoutés par l’utilisateur connecté
 - `Modifier un produit ` – Modification des produits existants
-- 
+  
 ## 🔐 Processus de Connexion
 
 Les pages (dans **Next.js**) ou les écrans (dans **React Native**) comme :
@@ -56,7 +56,11 @@ Pour se connecter, utilisez les identifiants de test suivants :
 
 ## 📝 Documentation
 - [`src/app/README.md`](./src/app/README.md) : Documentation détaillée de l'application Next.js
-- [`/Mobile/README.md`](./Mobile/README.md) : Documentation détaillée de l'application React Native  
+- [`/Mobile/README.md`](./Mobile/README.md) : Documentation détaillée de l'application React Native 
+
+## 🧪 test Documentation
+- [`src/app/Test/README.md`](./src/app/README.md) : Documentation détaillée des tests de l'application Next.js
+- [`/Mobile/Test/README.md`](./Mobile/README.md) : Documentation détaillée des tests de l'application React Native *(non terminée)*
 
 ## ⚙️ Setup Instructions
 Chaque dossier (`/web` et `/mobile`) contient un guide pour lancer et configurer l'application localement.

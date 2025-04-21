@@ -3,7 +3,7 @@
 import React from 'react';
 import FormComponentTemplate from '../FormComponentTemplate';
 
-const page = () => {
+const Signup = () => {
   const handleSignup = async (formData) => {
     const user = {
       username: formData.username,
@@ -37,12 +37,12 @@ const page = () => {
     <FormComponentTemplate
       title="Créez votre compte" description="Remplissez les informations ci-dessous pour vous inscrire."button="S'inscrire"onSubmit={handleSignup}
       fields={[
-        { name: 'username', label: "Nom d'utilisateur", type: 'text', placeholder: "Entrez votre nom d'utilisateur", required: true,},
-        { name: 'email', label: 'Email', type: 'email', placeholder: 'Entrez votre email', required: true,},
-        { name: 'password',  label: 'Mot de passe',  type: 'password',  placeholder: 'Entrez votre mot de passe',  required: true,},
+        { name: "username", label: "nom d'utilisateur", id: "username", type: 'text', placeholder: "Entrez votre nom d'utilisateur", required: true,},
+        { name: 'email', label: 'Email', id: "email", type: 'email', placeholder: 'Entrez votre email', required: true,},
+        { name: 'password',  label: 'Mot de passe',  id: "password",  type: 'password',  placeholder: 'Entrez votre mot de passe',  required: true,},
       ]}
     />
   );
 };
 
-export default page;
+export default Signup;

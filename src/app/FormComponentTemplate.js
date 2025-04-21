@@ -18,7 +18,7 @@ export default function FormComponentTemplate({
       ...prev,
       [name]: value,
     }));
-    setError(""); // clear error when typing
+    setError(""); 
   };
 
   const handleSubmit = async (e) => {
@@ -43,10 +43,11 @@ export default function FormComponentTemplate({
 
       {fields.map((field) => (
         <div key={field.name} className="mb-4">
-          <label className="block mb-1 text-sm font-semibold text-[#212121]">
-            {field.label}
+          <label htmlFor={field.name} className="block mb-1 text-sm font-semibold text-[#212121]">
+            {field.label} 
           </label>
           <input
+            id={field.name} // added this after testing.
             type={field.type}
             name={field.name}
             placeholder={field.placeholder}

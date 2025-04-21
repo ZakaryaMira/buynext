@@ -49,9 +49,7 @@ export default function LoginScreen() {
         { name: 'password', label: 'Mot de passe', type: 'password', placeholder: 'Entrez votre mot de passe', required: true },
       ]}
     />
-    {error && (
-    <Text style={styles.errorText}>{error}</Text>
-    )}
+    {error && ( <Text style={styles.errorText}>{error}</Text>)}
 
     <View>
       <TouchableOpacity>
@@ -65,10 +63,10 @@ const styles = StyleSheet.create({
   link: {
     textAlign: 'center',
     marginTop: 20,
-    fontSize: 10, // 28 is very large for a link (adjust as needed)
+    fontSize: 10, 
     fontWeight: 'bold',
-    color: '#007AFF', // Standard link color (blue), change as needed
-    textDecorationLine: 'underline', // Optional: makes it look more like a link
+    color: '#007AFF', 
+    textDecorationLine: 'underline',
   },
   errorText: {
     color: '#EF233C',

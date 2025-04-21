@@ -438,14 +438,14 @@ const applyFilters = (allProducts) => {
 
 ## 🧠 Purpose
 
-Display the complete details of a selected product.
-This page provides an individual view of an item, with its image, title, category, description, price, and two action buttons: **Buy Now** or **Add to Cart**.
+Afficher les détails complets d’un produit sélectionné.
+Cette page offre une vue individuelle d’un article, avec son image, son titre, sa catégorie, sa description, son prix, et deux boutons d’action : **Buy Now** ou **Add to Cart**.
 
 ---
 
 ## 🔗 Page Access
 
-This page is accessible from the **product list**. When a user selects a product, its `id` is passed via the navigation:
+Cette page est accessible depuis la **product list**. Lorsqu'un utilisateur sélectionne un produit, son `id` est transmis via la navigation :
 
 ```js
 navigation.navigate('ProductDetail', { productId: item.id });
@@ -457,7 +457,7 @@ navigation.navigate('ProductDetail', { productId: item.id });
 
 ### 🆔 Retrieving the product ID via navigation
 
-The `productId` is passed via `route.params`:
+Le `productId` est transmis via `route.params`:
 
 ```js
 const { productId } = route.params;
@@ -465,7 +465,7 @@ const { productId } = route.params;
 
 ### 🌐 API call to retrieve product details
 
-The ID is used to make an HTTP request to `https://fakestoreapi.com/products/{productId}` when mounting the component:
+L'identifiant est utilisé pour effectuer une requête HTTP vers `https://fakestoreapi.com/products/{productId}` lors du montage du composant:
 
 ```js
 useEffect(() => {
@@ -478,7 +478,7 @@ fetch(`https://fakestoreapi.com/products/${productId}`)
 
 ### 💾 Managing local product state
 
-The product is stored locally using `useState`:
+Le produit est stocké localement en utilisant `useState`
 
 ```js
 const [product, setProduct] = useState(null);
@@ -486,7 +486,7 @@ const [product, setProduct] = useState(null);
 
 ### ⏳ Loading Management
 
-As long as the data isn't loaded, an `ActivityIndicator` is displayed:
+Tant que les données ne sont pas chargées, un A `ActivityIndicator` est affiché :
 
 ```js
 if (!product) {

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import FormComponentTemplate from '../FormComponentTemplate'
 import { useRouter } from 'next/navigation';
 
-const page = () => {
+const Login = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
 
@@ -35,8 +35,8 @@ const page = () => {
     <>
     <FormComponentTemplate title="Connectez-vous à votre compte" description="Entrez vos informations pour accéder à votre compte" button="Ce connecter" onSubmit={handleLogin} 
     fields={[
-      {name: "username", label: "nom d'utilisateur",  type: "text", placeholder: "Entrez votre nom d'utilisateur", required: true,},
-      {name: "password", label: "Mot de passe" , type: "password", placeholder: "Entrez votre password", required: true,}
+      {name: "username", label: "nom d'utilisateur", id: "username",   type: "text", placeholder: "Entrez votre nom d'utilisateur", required: true,},
+      {name: "password", label: "Mot de passe" , id: "password", type: "password", placeholder: "Entrez votre password", required: true,}
     ]}
     />
     {error && <p className="text-[#EF233C] heading-black text-base text-center mb-4">{error}</p>}
@@ -45,4 +45,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Login

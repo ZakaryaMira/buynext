@@ -41,13 +41,13 @@ export default function AddProductPage() {
 
   return hasToken === null ? (
     <div className="min-h-screen flex items-center justify-center">
-      <p className="text-lg text-gray-600">Chargement...</p>
+      <p className="text-lg text-gray-600">Chargement</p>
     </div>
   ) : hasToken ? (
     <section className="min-h-screen bg-[#FAFAFA] p-6 relative">
       {showModal && (
         <SuccessModal message="Produit ajouté avec succès !" onClose={() => setShowModal(false)}/>)}
-        <ProductionHeading src={Add} width={50} height={50} title={"Ajouter un produit"} />
+        <ProductionHeading src={Add} alt={"Ajouter un produit"} width={50} height={50} title={"Ajouter un produit"} />
         <FormProducts onSubmit={handleSubmit} />
     </section>
   ) : (

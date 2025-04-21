@@ -1,17 +1,15 @@
 # 🌐 BUYNEXT Web – Next.js App
-
 Cette application web a été développée avec **Next.js** dans le cadre du test technique pour Weasydoo.  
 Elle consomme les données de [FakeStoreAPI](https://fakestoreapi.com) et propose une interface responsive, moderne et performante.
 
 ## 🌐 Fonctionnalités Clés
-
 -  Authentification (login/signup) avec validation de formulaire
 -  Liste des produits avec recherche et filtrage par catégorie
 -  Détails d’un produit
 -  Création de produits (CRUD)
 -  Édition et suppression de produits
 -  Routes protégées selon le statut de l'utilisateur (admin/user)
-
+  
 ## 🔌 Intégration API
 - Tous les appels sont faits via fetch vers https://fakestoreapi.com
 - Authentification simulée avec /auth/login
@@ -24,14 +22,14 @@ npm install
 npm run dev
 ```
 
-# 📝 Page de destination (Page d'accueil web de l'application)
+# 📝 Documentation de la page de destination (page d'accueil de l'application)
 
 ## 🧠 Objectif
 La page de destination, première vue de l'application, met en avant les fonctionnalités principales du site e-commerce.
 
 ## 🧱 Composants inclus
 
-# 🧩 HeroSection
+### 🧩 HeroSection
 
 #### 🔍 Description
 
@@ -41,7 +39,6 @@ Section principale de la landing page, composée de :
 - **Un slogan** : `Votre prochain achat, à portée de clic`
 - **Un bouton d’appel à l’action** : *Découvrez les offres*
 - **Des icônes flottantes** représentant les différentes catégories de produits :
-
   - Jeux vidéo  
   - Vêtements  
   - Téléphones  
@@ -70,7 +67,7 @@ export default FloatingIcon
 ```
 Cette section est centrée et responsive, avec des animations douces pour capter l’attention de l’utilisateur.
 
-#### Intégration dans HeroSection
+#### 🔌Intégration dans HeroSection
 
 ```js
 import React from 'react'
@@ -98,8 +95,9 @@ const HeroSection = () => {
 }
 export default HeroSection
 ```
-#### 🧩 Nos Produits (OurProducts)
-####  Description
+### 🧩 Nos Produits (OurProducts)
+
+#### 🔍 Description
 
 La section Nos Produits met en avant les différentes catégories de produits disponibles sur le site. Elle permet à l’utilisateur de s’orienter rapidement vers les produits de son choix.
 
@@ -111,7 +109,7 @@ Ce composant représente une **carte de catégorie générique**.
 
 - **`icon`** : une icône ou image représentant la catégorie  
 - **`title`** : le nom de la catégorie
-- 
+  
 
 ```js
 const ProductCategoryCard = ({ icon, title }) => {
@@ -123,7 +121,7 @@ const ProductCategoryCard = ({ icon, title }) => {
   )
 }
 ```
- #### 💡 Intégration dans OurProducts
+ #### 🔌 Intégration dans OurProducts
 
 ```js
 import ProductCategoryCard from "./ProductCategoryCard";
@@ -317,7 +315,7 @@ export default function FormComponentTemplate({ title, description, fields, onSu
   ); 
 }
 ```
-### 💡 Intégration dans Connexion (/login)
+### 🔌 Intégration dans Connexion (/login)
 
 Utilise le FormComponentTemplate pour permettre à l’utilisateur de se connecter via l’API 
 
@@ -338,7 +336,7 @@ return (
 - Nom d'utilisateur
 - Mot de passe
 
-### 💡 Intégration dans Inscription (/signup)
+### 🔌 Intégration dans Inscription (/signup)
 Soumet les données utilisateur à l’API FakeStore :
 
 ```js
@@ -358,10 +356,6 @@ return (
 - Nom d'utilisateur
 - Email
 - Mot de passe
-
-
-
-
 
 # 📝 Page Produit (Page de tous les produits)
 
@@ -634,13 +628,11 @@ Sinon, la liste reste vide. Le tableau data est mis à jour uniquement s’il y 
 - /products?search=casque → affiche les produits dont le titre contient "casque".
 - /products?search=montre&category=jewelery → filtre combiné : affiche uniquement les montres dans  la catégorie bijouterie.
 
-
-
 # 📝 Page de détails du produit (`/products/[id]`)
 
-## 🧠 Objectif
-Display detailed information for a selected product from the product list.
+## 🧠 Objectif:
 
+Afficher les informations détaillées pour un produit sélectionné de la liste de produits.
 ## 🔍 Description :
 Cette page dynamique permet à l’utilisateur de consulter les détails d’un produit en cliquant sur celui-ci depuis la page de la liste des produits.
 
@@ -864,7 +856,7 @@ useEffect(() => {
   rows={4}
 />
 ```
-## 🚀 Intégration API
+## 🔌 Intégration API
 ```js
 const handleSubmit = async (formData) => {
     try {
@@ -891,7 +883,8 @@ const handleSubmit = async (formData) => {
     }
   };
 ```
-# 📦 la Page d'Inventaire (Inventory)
+# 📝 la Page d'Inventaire (Inventory):
+
 ## 🧠 Objectif:
 La page d'inventaire permet aux utilisateurs de voir, rechercher, modifier et supprimer des produits. Les données sont récupérées depuis l'API Fake Store et affichées dans une grille responsive.
 
@@ -966,8 +959,7 @@ Contient :
 - Bouton Supprimer → supprime le produit
 
 
-## ✏️ Page de Modification de Produit
-
+# 📝 Page de Modification de Produit
 Située dans /inventory/[id]/page.jsx
 
 ## 🚚 Récupérer un Produit Spécifique

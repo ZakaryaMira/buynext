@@ -21,6 +21,8 @@ export default function SearchNavBar() {
           size={24}
           color="#555"
           onPress={handleSearch}
+          testID="search-button" 
+
         />
         <TextInput
           style={styles.input}

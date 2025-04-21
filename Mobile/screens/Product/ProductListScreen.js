@@ -5,6 +5,7 @@ import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ActivityIndi
 import CategoryFilter from '../../screens/Product/Components/CategoryFilter'; // Adjust the path
 import SearchNavBar from '../../components/NavigationBar';
 
+
 export default function ProductListScreen({ route, navigation }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
