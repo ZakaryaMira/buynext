@@ -39,10 +39,10 @@ const NavComponent = () => {
   };
 
   return (
-    <nav className="relative bg-[#f9f9f9] flex items-center justify-between px-6 py-4 shadow-md">
+    <nav className="relative bg-[#f9f9f9] flex items-center justify-center py-4 shadow-md">
       {/* Logo */}
       <Link href="/products" >
-        <Image src={Logo} alt="BuyNext Logo" width={100} height={40} />
+        <Image src={Logo} className='mr-10' alt="BuyNext Logo" width={200} height={50} />
       </Link>
 
       {/* Search Bar */}
