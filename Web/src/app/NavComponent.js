@@ -67,14 +67,13 @@ const NavComponent = () => {
 
       {/* Navigation Links */}
       <div className="flex items-center gap-6">
-        <Link href="/about" className="text-sm font-medium heading-extra-bold">À propos</Link>
 
         <div
           className='relative'
           onMouseEnter={() => setIsDropDown(true)}
           onMouseLeave={() => setIsDropDown(false)}
         >
-          <Image src={UserSvg} alt="User" width={24} height={24} className='cursor-pointer' />
+          <Image src={UserSvg} alt="User" width={35} height={35} className='cursor-pointer' />
 
           {isClient && isDropDown && (
             <div className="absolute right-0 mt-0 py-5 w-48 bg-white border border-gray-200 rounded-md shadow-md z-10">
@@ -108,7 +107,7 @@ const NavComponent = () => {
           )}
         </div>
 
-        <Image src={BuySvg} alt="Cart" width={24} height={24} />
+        <Image src={BuySvg} alt="Cart" width={35} height={35} />
       </div>
     </nav>
   );
