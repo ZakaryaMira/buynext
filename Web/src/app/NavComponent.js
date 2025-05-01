@@ -49,7 +49,7 @@ const NavComponent = () => {
       <form onSubmit={handleSearch} className="relative flex-1 max-w-xl mx-4">
         <input
           type="text"
-          placeholder="Rechercher des produit"
+          placeholder="Search for products"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full px-4 py-2 rounded-full border border-gray-300 heading-extra-bold"

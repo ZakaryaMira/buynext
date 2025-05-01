@@ -1,5 +1,5 @@
 import { fireEvent, screen, render} from "@testing-library/react";
-import AllProducts from "../products/AllProducts";
+import AllProducts from "../products/components/AllProducts";
 
 const mockProduct = {
     id: 1,

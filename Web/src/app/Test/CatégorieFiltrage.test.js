@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import OurCategories from '../products/OurCategories';
+import OurCategories from '../products/components/OurCategories';
 import { useRouter } from 'next/navigation';
 
 // Mock du router Next.js

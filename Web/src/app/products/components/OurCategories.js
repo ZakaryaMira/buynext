@@ -1,8 +1,8 @@
 'use client';
 import React from 'react'
-import Categories from '../SVG/Categories.svg'
+import Categories from '../../SVG/Categories.svg'
 import Image from 'next/image'
-import categories from './Categories'
+import categories from '../components/Categories';
 import { useRouter } from 'next/navigation';
 
 const OurCategories = () => {

@@ -1,23 +1,10 @@
 import Image from 'next/image';
-import OurCategories from './OurCategories';
-import AllProducts from './AllProducts';
+import OurCategories from './components/OurCategories';
+import AllProducts from './components/AllProducts';
 
-export default async function ProductsPage({ searchParams  }) {
+export default async function ProductsPage({}) {
   const response = await fetch('https://fakestoreapi.com/products');
-  let data = await response.json();
-
-  const search = searchParams.search?.toLowerCase() || '';
-  const category = searchParams.category;
-
-  const filterData = data.filter((product) => {
-    const isCategoryMatch = category ? product.category.toLowerCase().includes(category.toLowerCase()) : true;
-    const isSearchMatch = product.title.toLowerCase().includes(search);
-    return isCategoryMatch && isSearchMatch;
-  });
-
-  if (filterData.length > 0) {
-    data = filterData;
-  }
+  const data = await response.json();
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] p-6">

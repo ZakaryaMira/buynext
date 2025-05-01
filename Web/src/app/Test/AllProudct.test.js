@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import AllProducts from '../products/AllProducts';
+import AllProducts from '../products/components/AllProducts';
 
 // Improved Next.js Image mock that simulates the actual behavior
 jest.mock('next/image', () => ({

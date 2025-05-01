@@ -13,16 +13,16 @@ export default function HeroComponent() {
                 <div className="absolute inset-0 border-2 border-white/20 mix-blend-overlay rounded"></div>
               </div>
               <p className="heading-black mt-6 text-lg sm:text-xl md:text-2xl text-gray-600 max-w-md sm:max-w-xl font-extrabold relative z-10">
-                Votre prochain achat, à portée de clic
+                Your next purchase, just a click away
               </p>
             </div>
 
             <h1 className="heading-black text-4xl md:text-5xl font-bold text-gray-900">
-              Découvrez Notre Collection <span className="text-[#FFC107]">Exclusive</span>
+            Discover Our <span className="text-[#FFC107]">Exclusive</span> Collection
             </h1>
             
             <p className="heading-black text-lg md:text-xl text-gray-600">
-              Des produits de qualité, livrés directement à votre porte
+              Quality products, delivered straight to your door
             </p>
 
             <div className="flex gap-4">
@@ -39,13 +39,13 @@ export default function HeroComponent() {
                 <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                 </svg>
-                <span className="heading-black text-gray-600">Livraison Gratuite</span>
+                <span className="heading-black text-gray-600">Free Shipping</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                 </svg>
-                <span className="heading-black text-gray-600">Paiement Sécurisé</span>
+                <span className="heading-black text-gray-600">Secure Payment</span>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@ export default function HeroComponent() {
                 className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-[#8ACCD5] text-white p-4 text-center">
-                <span className="text-2xl heading-extra-bold text-[#F8F8E1]">Nouvelle Collection 2025</span>
+                <span className="text-2xl heading-extra-bold text-[#F8F8E1]">New Collection 2025</span>
               </div>
             </div>
           </div>
