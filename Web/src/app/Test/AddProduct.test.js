@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import AddProductPage from "../admin/page";
+import AddProductPage from "../products/addProduct/page";
 
 beforeEach(() => {
     Storage.prototype.getItem = jest.fn();

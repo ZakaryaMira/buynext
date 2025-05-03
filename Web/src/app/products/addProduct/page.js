@@ -1,9 +1,8 @@
 'use client';
 import { useState, useEffect } from "react";
-import FormProducts from "./FormProducts";
-import Add from '../SVG/Add.svg';
-import ProductionHeading from "./ProductionHeading";
-import SuccessModal from "../SuccessModal";
+import FormProducts from "./Components/FormProducts";
+import Add from '../../SVG/Add.svg';
+import ProductionHeading from "./Components/ProductionHeading";
 
 export default function AddProductPage() {
   const [showModal, setShowModal] = useState(false);

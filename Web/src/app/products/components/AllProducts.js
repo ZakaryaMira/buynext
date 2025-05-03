@@ -8,7 +8,7 @@ export default function AllProducts ({ product }) {
 
   return (
     <Link href={`/products/${product.id}`}>
-      <div className='bg-white p-4 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300 relative group overflow-hidden hover:bg-gradient-to-br from-[#FFC107]/20 to-[#FFC107]/30'>
+      <div className='h-120 w-90 bg-white text-base heading-black border-solid border-2 p-10 rounded-2xl shadow-lg text-center hover:shadow-xl transition-all duration-300 relative group overflow-hidden '>
         {/* Wishlist Button */}
         <button 
           onClick={(e) => {
@@ -26,6 +26,7 @@ export default function AllProducts ({ product }) {
           </svg>
         </button>
 
+
         {/* Product Image with Hover Effect */}
         <div className="relative h-64 overflow-hidden rounded-xl">
           <Image 
@@ -40,18 +41,18 @@ export default function AllProducts ({ product }) {
         {/* Product Details */}
         <div className="pt-4 pb-2 px-2">
           {/* Category Tag */}
-          <span className="heading-black text-[#212121] bg-[#FFC107] inline-block mb-2 px-3 py-1 text-xs font-medium   rounded-full">
+          <span className="heading-black text-[#212121] bg-[#FFC107] inline-block mb-2 px-10 py-2 text-xs  rounded-full">
             {product.category}
           </span>
           
           {/* Product Title */}
-          <h3 className=" heading-black mb-2 text-lg font-semibold text-gray-800 font-[PlayfairDisplay] hover:text-rose-600 transition-colors">
+          <h3 className=" heading-black mb-2 text-lg text-gray-800  hover:text-rose-600 transition-colors">
             {product.title}
           </h3>
 
           {/* Price */}
           <div className="flex items-center justify-center space-x-2">
-            <span className=" heading-black text-xl font-bold text-[#FFC107]">
+            <span className=" heading-black text-xl  text-[#FFC107]">
               ${product.price}
             </span>
             <span className="text-sm line-through text-gray-400">

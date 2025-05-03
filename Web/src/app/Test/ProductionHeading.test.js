@@ -1,5 +1,5 @@
 import { screen, render } from "@testing-library/react";
-import ProductionHeading from "../admin/ProductionHeading";
+import ProductionHeading from "../products/addProduct/ProductionHeading";
 import '@testing-library/jest-dom';
 
 jest.mock('next/image', () => ({

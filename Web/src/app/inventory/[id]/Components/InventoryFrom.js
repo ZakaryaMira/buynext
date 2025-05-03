@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from "react";
-import ProductInpiutFiled from "@/app/admin/ProductInpiutFiled";
-import ProductSelectInput from "@/app/admin/ProductSelectInput";
-import ProductTextArea from "@/app/admin/ProductTextArea";
-import ProductImageUploader from "@/app/admin/ProductImageUploader";
+import ProductInpiutFiled from "@/app/products/addProduct/ProductInpiutFiled";
+import ProductSelectInput from "@/app/products/addProduct/ProductSelectInput";
+import ProductTextArea from "@/app/products/addProduct/ProductTextArea";
+import ProductImageUploader from "@/app/products/addProduct/ProductImageUploader";
 import SuccessModal from "../../../SuccessModal"; // Adjust path as needed
 
 export default function InventoryFrom({ formData, setFormData, onSubmit }) {

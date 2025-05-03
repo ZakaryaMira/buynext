@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from 'next/image';
-import Add from '../SVG/Add.svg';
-import Photo from '../SVG/Photo.svg';
+import Add from '../../../SVG/Add.svg';
+import Photo from '../../../SVG/Photo.svg';
 import ProductInpiutFiled from "./ProductInpiutFiled";
 import ProductTextArea from "./ProductTextArea";
 import ProductImageUploader from "./ProductImageUploader";
